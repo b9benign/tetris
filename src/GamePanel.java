@@ -12,9 +12,10 @@ public class GamePanel extends JPanel implements Runnable{
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 720;
     final int FPS = 60;
-    Thread GameMode1 ;
+    Thread GameMode1;
     PlayManager pm;
     Field field;
+    KeyHandler keyH = new KeyHandler();
 
 
     public GamePanel() {
@@ -59,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-        pm.draw(g2);
         field.draw(g2);
+        pm.draw(g2);
     }
 }

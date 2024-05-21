@@ -1,8 +1,7 @@
 package src.Blocks;
 
-public class Squiggly {
-    //  [][]
+public class Square_Piece {
     //[][]
-
+    //[][]
     
 }
