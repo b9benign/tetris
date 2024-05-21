@@ -65,9 +65,11 @@ public class Field {
         while(HEIGHT-(o*BlockSize)>0){
             while(WIDTH-(i*BlockSize)>0){
                 g2.setColor(FieldArray[o][i].c);
-                g2.fillRect(right_x-(i*BlockSize), bottom_y-(o*BlockSize), BlockSize, BlockSize);
+                g2.fillRect(left_x+(i*BlockSize), bottom_y-(o*BlockSize), BlockSize, BlockSize);
+                FieldArray[o][i].x=left_x+(i*BlockSize);
+                FieldArray[o][i].y=bottom_y-(o*BlockSize);
                 g2.setColor(Color.BLACK);
-                g2.drawRect(right_x-(i*BlockSize), bottom_y-(o*BlockSize), BlockSize, BlockSize);
+                g2.drawRect(left_x+(i*BlockSize), bottom_y-(o*BlockSize), BlockSize, BlockSize);
                 i++;
             }
             if(i>=12){

@@ -16,6 +16,6 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-
+        gp.launchMode1();
     }
 }

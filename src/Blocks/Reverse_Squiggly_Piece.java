@@ -1,6 +1,6 @@
 package src.Blocks;
 
-public class Reverse_Squiggly {
+public class Reverse_Squiggly_Piece {
     //[][]
     //  [][]
 
