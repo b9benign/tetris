@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import src.Blocks.Block;
-import src.Blocks.Figur;
+import src.Blocks.Figure;
 import src.Blocks.L_Piece;
 
 public class PlayManager {
@@ -21,9 +21,9 @@ public class PlayManager {
     public static int bottom_y;
 
     //Figur
-    Figur currentFigur;
-    final int FigurStartX;
-    final int FigurStartY;
+    Figure currentFigure;
+    final int FigureStartX;
+    final int FigureStartY;
 
     //Interval/gameSpeed
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
@@ -34,16 +34,15 @@ public class PlayManager {
         top_y = 50;
         bottom_y = top_y + HEIGHT;
 
-        FigurStartX = left_x + (WIDTH/2) - Block.SIZE;
-        FigurStartY = top_y - Block.SIZE*3;
+        FigureStartX = left_x + (WIDTH/2) - Block.SIZE;
+        FigureStartY = top_y - Block.SIZE*3;
 
         //test for spawn of L_Block
-        currentFigur = new L_Piece();
-        currentFigur.setVisible();
-        currentFigur.setXY(FigurStartX, FigurStartY);
+        currentFigure = new L_Piece();
+        currentFigure.setXY(FigureStartX, FigureStartY);
     }
     public void update(){
-        currentFigur.update();
+        currentFigure.update();
     }
     public void draw(Graphics2D g2){
         // Draw Play Area
@@ -60,8 +59,8 @@ public class PlayManager {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("NEXT", x+60, y+60);
 
-        if(currentFigur != null){
-            currentFigur.draw(g2);
+        if(currentFigure != null){
+            currentFigure.draw(g2);
         }
     }
 }
