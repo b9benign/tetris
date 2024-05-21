@@ -3,7 +3,6 @@ package src.Blocks;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +39,7 @@ public abstract class Figure {
         for (int i = 0; i < arrayWidth; i++) {
             for (int j = 0; j < arrayWidth; j++) {
                 if(b[(i * arrayWidth + j)].visible) {
-                    tempIdx.add(j * arrayWidth + (arrayWidth - 1 - i));
+                    tempIdx.add((arrayWidth - 1 - j) * arrayWidth + i);
                 }
             }
         }
@@ -49,7 +48,7 @@ public abstract class Figure {
             newIdx[x] = tempIdx.get(x);
         }
         setVisible(newIdx);
-    };
+    }
 
     private void rotateRight() {            //clockwise rotation
         ArrayList<Integer> tempIdx = new ArrayList<>();
@@ -65,7 +64,7 @@ public abstract class Figure {
             newIdx[x] = tempIdx.get(x);
         }
         setVisible(newIdx);
-    };
+    }
 
 
     public void draw(Graphics2D g2) {
