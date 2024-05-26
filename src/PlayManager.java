@@ -5,10 +5,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import src.Blocks.Block;
 import src.Blocks.Figure;
 import src.Blocks.L_Piece;
+
+import javax.swing.*;
 
 public class PlayManager {
     
@@ -19,7 +23,6 @@ public class PlayManager {
     public static int right_x;
     public static int top_y;
     public static int bottom_y;
-
     //Figur
     Figure currentFigure;
     final int FigureStartX;
@@ -28,7 +31,7 @@ public class PlayManager {
     //Interval/gameSpeed
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
 
-    public PlayManager(){
+    public PlayManager() {
         left_x = (GamePanel.WIDTH/2) - (WIDTH/2);
         right_x = left_x + WIDTH;
         top_y = 50;
@@ -36,11 +39,11 @@ public class PlayManager {
 
         FigureStartX = left_x + (WIDTH/2) - Block.SIZE;
         FigureStartY = top_y - Block.SIZE*3;
-
-        //test for spawn of L_Block
         currentFigure = new L_Piece();
         currentFigure.setXY(FigureStartX, FigureStartY);
     }
+
+
     public void update(){
         currentFigure.update();
     }

@@ -1,13 +1,15 @@
 package src;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyHandler implements KeyListener {
+public class KeyHandler extends JFrame implements KeyListener {
 
     public boolean upPressed, downPressed, rightPressed, leftPressed, keyQPressed;
     @Override
     public void keyTyped(KeyEvent e) {
+        int code = e.getKeyCode();
     }
 
     @Override

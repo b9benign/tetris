@@ -1,5 +1,7 @@
 package src;
 
+import src.PieceBuilder.PieceBuilder;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,7 +9,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 720;
@@ -15,11 +17,8 @@ public class GamePanel extends JPanel implements Runnable{
     Thread GameMode1;
     PlayManager pm;
     Field field;
-    KeyHandler keyH = new KeyHandler();
-
 
     public GamePanel() {
-
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         this.setBackground(Color.black);
         this.setLayout(null);
@@ -31,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable{
         GameMode1 = new Thread(this);
         GameMode1.start();
     }
+
+
     public void run(){
         // Game Loop
         double drawInterval = 1000000000 /FPS;
@@ -58,7 +59,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D)g;
         field.draw(g2);
         pm.draw(g2);
