@@ -13,8 +13,10 @@ public class GamePanel extends JPanel implements Runnable{
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 720;
     final int FPS = 60;
+
     public static boolean gameOver = false;
-    Thread GameMode1 ;
+    Thread GameMode1;
+
     PlayManager pm;
     Field field;
 

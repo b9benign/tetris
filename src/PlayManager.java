@@ -40,6 +40,7 @@ public class PlayManager {
     final int FigurStartX;
     final int FigurStartY;
 
+
     //Interval/gameSpeed
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
 
@@ -64,6 +65,7 @@ public class PlayManager {
         //spawn Squiggly_Piece (only for testing)
         //currentFigur = new Squiggly_Piece();
     }
+  
     private Figure pickRandomFigure(ArrayList<String> FigureList){
         String figureString = null;
         Figure figure = null;

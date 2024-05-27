@@ -2,10 +2,10 @@ package src.Blocks;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
 
 import src.KeyHandler;
 import src.PlayManager;
@@ -24,6 +24,7 @@ public class Figure {
     public Block[] create(Color c, int arrayWidth) {
         this.arrayWidth = arrayWidth;
         this.arrayLength = arrayWidth * arrayWidth;
+
         Block b[] = new Block[this.arrayLength];
         for(int i=0; i< this.arrayLength;i++){
             b[i]= new Block(c);
@@ -68,6 +69,7 @@ public class Figure {
             }
         }
     }
+
     private void rotateLeft() {             //counter-clockwise rotation
         ArrayList<Integer> tempIdx = new ArrayList<>();
 
@@ -75,6 +77,7 @@ public class Figure {
             for (int j = 0; j < arrayWidth; j++) {
                 if(b[(i * arrayWidth + j)].visible) {
                     tempIdx.add(j * arrayWidth + (arrayWidth - 1 - i));
+
                 }
             }
         }
@@ -84,12 +87,15 @@ public class Figure {
         }
         setVisible(newIdx);
     };
+
     private void rotateRight() {            //clockwise rotation
         ArrayList<Integer> tempIdx = new ArrayList<>();
         for (int i = 0; i < arrayWidth; i++) {
             for (int j = 0; j < arrayWidth; j++) {
                 if(b[(i * arrayWidth + j)].visible) {
+
                     tempIdx.add((arrayWidth - 1 - j) * arrayWidth + i);
+
                 }
             }
         }
