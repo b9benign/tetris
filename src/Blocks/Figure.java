@@ -12,6 +12,8 @@ import src.PlayManager;
 import src.Field;
 
 public class Figure {
+    //public Color c; and Array
+
     public Block b[] = new Block[0];
     public int arrayLength;
     public int arrayWidth;
@@ -159,13 +161,13 @@ public class Figure {
         }
     }
     public void checkRotationCollision(){
-        //if Block[] overlaps Left Side, Dont allow rotation
+        //if Block[] overlaps Left Wall, Dont allow rotation
         for(int i = 0; i < b.length; i++){
-            if(b[i].x + Block.SIZE== PlayManager.left_x){
+            if(b[i].x + Block.SIZE == PlayManager.left_x){
                 rotationCollision=true;
             }
         }
-        //if Block[] overlaps Right Side, Dont allow rotation
+        //if Block[] overlaps Right Wall, Dont allow rotation
         for(int i = 0; i < b.length; i++){
             if(b[i].x == PlayManager.right_x){
                 rotationCollision=true;
@@ -228,8 +230,10 @@ public class Figure {
         }else{ //autodrop
             autoDropCounter++;
             if(autoDropCounter==PlayManager.dropInterval){
-                for(int i=0; i < b.length; i++){
-                    b[i].y += Block.SIZE;
+                if(bottomCollision==false){
+                    for(int i=0; i < b.length; i++){
+                        b[i].y += Block.SIZE;
+                    }
                 }
                 autoDropCounter = 0;
             }
