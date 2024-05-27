@@ -17,9 +17,5 @@ public class Main {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-
-        MusicPlayer musicPlayer;
-        musicPlayer = new MusicPlayer();
-        musicPlayer.playMusic("src/Sound/Tetris_Soundtrack.wav");
     }
 }
