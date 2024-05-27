@@ -17,6 +17,10 @@ public class PieceOption extends JButton {
         setOpaque(true);
     }
 
+    public PieceOption() {
+        this.identifier = 99999;
+    }
+
     public int getIdentifier() {
         return identifier;
     }

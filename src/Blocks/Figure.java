@@ -99,7 +99,6 @@ public abstract class Figure {
         for (int num : blockIndices) {
             set.add(num);
         }
-        System.out.println("TEST  :   " + set);
         for (int i = 0; i < b.length; i++) {
             b[i].visible = set.contains(i); //Nur übergebene Indizes sind nun sichtbar
         }
