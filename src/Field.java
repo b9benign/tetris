@@ -2,6 +2,7 @@ package src;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import src.Blocks.Block;
 
@@ -13,50 +14,93 @@ public class Field {
     public static int right_x;
     public static int top_y;
     public static int bottom_y;
-    Block[][] FieldArray = new Block[][]{   };
+    public static Block[][] FieldArray = new Block[20][12];
     public Field(){
-        left_x = (GamePanel.WIDTH/2) - (WIDTH/2);
+        left_x = (GameMode1.WIDTH/2) - (WIDTH/2);
         right_x = left_x + WIDTH - BlockSize;
         top_y = 50;
         bottom_y = top_y + HEIGHT - BlockSize;
-        Block Block1 = new Block(Color.GRAY);
-        Block Block2 = new Block(Color.GRAY);
-        Block Block3 = new Block(Color.GRAY);
-        Block Block4 = new Block(Color.GRAY);
-        Block Block5 = new Block(Color.GRAY);
-        Block Block6 = new Block(Color.GRAY);
-        Block Block7 = new Block(Color.GRAY);
-        Block Block8 = new Block(Color.GRAY);
-        Block Block9 = new Block(Color.GRAY);
-        Block Block10 = new Block(Color.GRAY);
-        Block Block11 = new Block(Color.GRAY);
-        Block Block12 = new Block(Color.GRAY);
-
-        Block[] Line1 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line2 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line3 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line4 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line5 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line6 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line7 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line8 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line9 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line10 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line11 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line12 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line13 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line14 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line15 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line16 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line17 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line18 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line19 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-        Block[] Line20 = new Block[]{Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Block9, Block10, Block11, Block12};
-
-        FieldArray = new Block[][] {Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8, Line9, Line10, Line11, Line12, Line13, Line14, Line15, Line16, Line17, Line18, Line19, Line20};
+        for(int i=0; i<20;i++){
+            for(int o = 0; o<12;o++){
+                FieldArray[i][o] = new Block(Color.gray);
+                FieldArray[i][o].x = left_x+(o*BlockSize);
+                FieldArray[i][o].y = bottom_y-(i*BlockSize);
+            }
+        }
+    }
+    public void removeLine(int i){
+        for(int j=i;j<(20-i);j++){
+            for(int o = 0; o<12;o++){
+                if(j==19){
+                    FieldArray[j][o].visible = false;
+                    FieldArray[j][o].c = Color.gray;
+                }else{
+                    FieldArray[j][o].visible=FieldArray[j+1][o].visible;
+                    FieldArray[j][o].c=FieldArray[j+1][o].c;
+                }
+            }
+        }
+    }
+    public static Color getRandomColor(){
+        int rand = new Random().nextInt(6)+1;
+        Color color;
+        switch(rand){
+            case 1:
+                color = Color.red;
+                break;
+            case 2:
+                color = Color.green;
+                break;
+            case 3:
+                color = Color.pink;
+                break;
+            case 4:
+                color = Color.yellow;
+                break;
+            case 5:
+                color = Color.blue;
+                break;
+            case 6:
+                color = Color.magenta;
+                break;
+            default:
+                color =Color.cyan;
+        }
+        return color;
+    }
+    public void addPointByRows(int i){
+        if(i==1){
+            PlayManager.counter += (PlayManager.level+1)*40;
+        }else if(i==2){
+            PlayManager.counter += (PlayManager.level+1)*100;
+        }else if(i==3){
+            PlayManager.counter += (PlayManager.level+1)*300;
+        }else if(i==4){
+            PlayManager.counter += (PlayManager.level+1)*1200;
+        }else{
+            System.out.println("error on removedLines Count");
+        }
     }
     public void update(){
-
+        int removeLineCounter = 0;
+        for(int j=0; j<4;j++){
+            for(int i=0; i<20;i++){
+                int linePieceCounter=0;
+                for(int o = 0; o<12;o++){
+                    if(FieldArray[i][o].visible){
+                        linePieceCounter++;
+                    }
+                }
+                if(linePieceCounter==12){
+                    removeLine(i);
+                    removeLineCounter++;
+                    i--;
+                }
+            }
+        }
+        if(removeLineCounter!=0){
+            addPointByRows(removeLineCounter);
+        }
     }
     public void draw(Graphics2D g2){
         //Field Blocks
@@ -66,8 +110,6 @@ public class Field {
             while(WIDTH-(i*BlockSize)>0){
                 g2.setColor(FieldArray[o][i].c);
                 g2.fillRect(left_x+(i*BlockSize), bottom_y-(o*BlockSize), BlockSize, BlockSize);
-                FieldArray[o][i].x=left_x+(i*BlockSize);
-                FieldArray[o][i].y=bottom_y-(o*BlockSize);
                 g2.setColor(Color.BLACK);
                 g2.drawRect(left_x+(i*BlockSize), bottom_y-(o*BlockSize), BlockSize, BlockSize);
                 i++;
