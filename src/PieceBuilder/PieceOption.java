@@ -5,7 +5,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Set;
 
-public class PieceOption extends JButton{
+public class PieceOption extends JButton {
     private final int identifier;
 
     public PieceOption(int identifier) {

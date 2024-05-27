@@ -9,8 +9,8 @@ import java.util.List;
 
 public class PieceBuilder extends JPanel {
 
-    private static final int BUILDER_HEIGHT = 400;
-    private static final int BUILDER_WIDTH = 400;
+    private static final int BUILDER_PANEL_HEIGHT = 400;
+    private static final int BUILDER_PANEL_WIDTH = 400;
     private static final int BUILDER_SIZE = 5;
 
     private final PieceOption[] options = new PieceOption[BUILDER_SIZE*BUILDER_SIZE];
@@ -21,7 +21,7 @@ public class PieceBuilder extends JPanel {
 
     public PieceBuilder() {
         clearAll();
-        setPreferredSize(new Dimension(BUILDER_WIDTH, BUILDER_HEIGHT));
+        setPreferredSize(new Dimension(BUILDER_PANEL_WIDTH, BUILDER_PANEL_HEIGHT));
         setLayout(new GridLayout(BUILDER_SIZE, BUILDER_SIZE));
         create();
         availableOptionsAmount = 5;
@@ -84,7 +84,10 @@ public class PieceBuilder extends JPanel {
 
     private void fetchValidTargets() {
         if(!validTargets.isEmpty()) validTargets.clear();
-        if(availableOptionsAmount <= 0) return;
+        if(availableOptionsAmount <= 0) {
+            minimizeOptionsWhitespace();
+            return;
+        }
         for(int selectedOption : selectedOptions) {
             int[] neighbors = {
                     selectedOption - BUILDER_SIZE,
@@ -98,18 +101,44 @@ public class PieceBuilder extends JPanel {
             }
         }
         availableOptionsAmount--;
-        System.out.println("VALID TARGETS: " + validTargets);
     }
 
     //TODO: minify -> takes in field, cuts out whitespace if possible and returns (smaller) field;
-    private PieceOption[] minifyOptions() {
-        return options; //placeholder
+    private PieceOption[] minimizeOptionsWhitespace() {
+
+        int newSize = getLargestSideOfOptions();
+        if (newSize == BUILDER_SIZE) return options; //no optimizations possible -> return options
+
+        return createMinimizedOptionsFromSizeAdjustment(newSize);
     }
 
     //TODO: createCustomPiece -> needs minify -> returns CustomPiece(int[] visibleBlocks, int arrayWidth);
         //needs to be button that adds returned CustomPiece to array of CustomPieces for game mode 2
-    public CustomPiece createCustomPiece() {
-        PieceOption[] minifiedOptions = minifyOptions();
+    private int getLargestSideOfOptions() {
+        int top = BUILDER_SIZE;
+        int left = BUILDER_SIZE;
+        int bottom = 0;
+        int right = 0;
+
+        for(int i = 0; i < BUILDER_SIZE; i++) {
+            for(int j = 0; j < BUILDER_SIZE; j++) {
+                if(selectedOptions.contains(options[i * BUILDER_SIZE + j].getIdentifier())) {
+                    top = Math.min(top, i);
+                    left = Math.min(left, j);
+                    bottom = Math.max(bottom, i);
+                    right = Math.max(right, j);
+                }
+            }
+        }
+        return Math.max((right - left + 1), (bottom - top + 1));
+    }
+
+    private PieceOption[] createMinimizedOptionsFromSizeAdjustment(int newSize) {
+        return options; //placeholder
+    }
+
+    public CustomPiece createCustomPieceFromCurrentBuilder() {
+        PieceOption[] minifiedOptions = minimizeOptionsWhitespace();
         int[] visibleBlocks = mapOptionsToIndices();
         int arrayWidth = 4;
         return new CustomPiece(visibleBlocks, arrayWidth);
@@ -123,4 +152,6 @@ public class PieceBuilder extends JPanel {
         //can call "pieceBuilder.clearCurrent()" and "this.reset()"
         //if all 7 spaces filled: enable StartGame-Button -> new Panel with GameMode2(CustomPieces)
         //ReturnButton to main screen/ game mode selection
+    //TODO: PieceDisplay
+        //takes in X extends Figure -> display it for use in CustomPiecesCreationPanel and "NextPiece" in every game mode
 }
