@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class GameMode2 extends JPanel implements Runnable{
@@ -43,6 +46,7 @@ public class GameMode2 extends JPanel implements Runnable{
     public void launchMode2(){
         GameMode2 = new Thread(this);
         GameMode2.start();
+        PlayManager.FigureList.addAll(null);
     }
     public void run(){
         // Game Loop
@@ -77,5 +81,19 @@ public class GameMode2 extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
         field.draw(g2);
         pm.draw(g2);
+        if(KeyHandler.pausePressed){
+            JButton backToMenu = new JButton("Back to Menu");
+            backToMenu.setFocusable(false);
+            backToMenu.setBounds(440, 380, 400, 50);
+            backToMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                Main.gameMode=0;
+                Main.main(null);
+                KeyHandler.pausePressed=false;
+            }
+
+            });
+            add(backToMenu);
+        }
     }
 }

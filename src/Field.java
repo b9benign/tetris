@@ -2,6 +2,7 @@ package src;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import src.Blocks.Block;
 
@@ -31,8 +32,8 @@ public class Field {
         for(int j=i;j<(20-i);j++){
             for(int o = 0; o<12;o++){
                 if(j==19){
-                    FieldArray[j][o].visible=false;
-                    FieldArray[j][o].c=Color.gray;
+                    FieldArray[j][o].visible = false;
+                    FieldArray[j][o].c = Color.gray;
                 }else{
                     FieldArray[j][o].visible=FieldArray[j+1][o].visible;
                     FieldArray[j][o].c=FieldArray[j+1][o].c;
@@ -40,8 +41,34 @@ public class Field {
             }
         }
     }
+    public static Color getRandomColor(){
+        int rand = new Random().nextInt(6)+1;
+        Color color;
+        switch(rand){
+            case 1:
+                color = Color.red;
+                break;
+            case 2:
+                color = Color.green;
+                break;
+            case 3:
+                color = Color.pink;
+                break;
+            case 4:
+                color = Color.yellow;
+                break;
+            case 5:
+                color = Color.blue;
+                break;
+            case 6:
+                color = Color.magenta;
+                break;
+            default:
+                color =Color.cyan;
+        }
+        return color;
+    }
     public void addPointByRows(int i){
-        System.out.println("level: " + PlayManager.level);
         if(i==1){
             PlayManager.counter += (PlayManager.level+1)*40;
         }else if(i==2){

@@ -5,7 +5,7 @@ public class Reverse_Squiggly_Piece extends Figure{
     //  [][]
     public Reverse_Squiggly_Piece(){
         //get Color by Level
-        b = create(Color.pink, 3);
+        b = create(Color.red, 3);
         setVisible(new int[]{0, 1, 4, 5});
     }
     public void setXY(int x, int y){

@@ -31,7 +31,7 @@ public class PlayManager {
     public static int bottom_y;
 
     //Figur
-    ArrayList<String> FigureList;
+    static ArrayList<String> FigureList;
     ArrayList<String> NextFigurList;
     static Figure currentFigur;
     static Figure nextFigur;
@@ -44,7 +44,7 @@ public class PlayManager {
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
 
     public PlayManager(ArrayList<String> FigureList){
-        this.FigureList = FigureList;
+        PlayManager.FigureList = FigureList;
         this.NextFigurList = FigureList;
 
         left_x = (GameMode1.WIDTH/2) - (WIDTH/2);
@@ -143,7 +143,7 @@ public class PlayManager {
             g2.setFont(g2.getFont().deriveFont(50f));
             g2.drawString("PAUSED", x, y-40);
         }
-        if(GameMode1.gameOver){
+        if(GameMode1.gameOver || GameMode2.gameOver || GameMode3.gameOver){
             x = left_x + 80;
             y = top_y + 320;
             g2.setColor(Color.white);
@@ -152,7 +152,7 @@ public class PlayManager {
             g2.drawRect(left_x-50, y-200, WIDTH+100, HEIGHT/2);
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(50f));
-            g2.drawString("Game Over", x, y);
+            g2.drawString("Game Over", x-40, y);
             g2.drawString("Score: " + counter, x-20, y);
         }
     }
@@ -160,6 +160,12 @@ public class PlayManager {
         currentFigur = null;
     }
     public static void Gameover(){
-        GameMode1.gameOver = true;
+        if(Main.gameMode==1){
+            GameMode1.gameOver = true;
+        }else if(Main.gameMode==2){
+            GameMode2.gameOver = true;
+        }else if(Main.gameMode==3){
+            GameMode3.gameOver = true;
+        }
     }
 }

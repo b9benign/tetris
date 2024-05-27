@@ -20,8 +20,6 @@ public class Main {
             window.remove(gm3);
             window.add(menu);
             window.pack();
-            //menu.update();
-            //menu.launchMenu();
         }else if(gameMode==1){
             window.remove(menu);
             window.add(gm1);
@@ -31,7 +29,9 @@ public class Main {
             window.remove(menu);
             window.add(gm2);
             window.pack();
+            //after custom figure draw
             gm2.launchMode2();
+            
         }else if(gameMode==3){
             window.remove(menu);
             window.add(gm3);
@@ -42,6 +42,5 @@ public class Main {
         window.setResizable(false);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        System.out.println("main");
     }
 }
