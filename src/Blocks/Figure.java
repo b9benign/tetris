@@ -153,13 +153,13 @@ public class Figure {
         }
     }
     public void checkRotationCollision(){
-        //if Block[] overlaps Left Side, Dont allow rotation
+        //if Block[] overlaps Left Wall, Dont allow rotation
         for(int i = 0; i < b.length; i++){
             if(b[i].x + Block.SIZE== PlayManager.left_x){
                 rotationCollision=true;
             }
         }
-        //if Block[] overlaps Right Side, Dont allow rotation
+        //if Block[] overlaps Right Wall, Dont allow rotation
         for(int i = 0; i < b.length; i++){
             if(b[i].x == PlayManager.right_x){
                 rotationCollision=true;

@@ -47,7 +47,7 @@ public class PlayManager {
         this.FigureList = FigureList;
         this.NextFigurList = FigureList;
 
-        left_x = (GamePanel.WIDTH/2) - (WIDTH/2);
+        left_x = (GameMode1.WIDTH/2) - (WIDTH/2);
         right_x = left_x + WIDTH;
         top_y = 50;
         bottom_y = top_y + HEIGHT;
@@ -141,9 +141,9 @@ public class PlayManager {
             g2.drawRect(left_x-50, y-200, WIDTH+100, HEIGHT/2);
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(50f));
-            g2.drawString("PAUSED", x, y);
+            g2.drawString("PAUSED", x, y-40);
         }
-        if(GamePanel.gameOver){
+        if(GameMode1.gameOver){
             x = left_x + 80;
             y = top_y + 320;
             g2.setColor(Color.white);
@@ -152,14 +152,14 @@ public class PlayManager {
             g2.drawRect(left_x-50, y-200, WIDTH+100, HEIGHT/2);
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(50f));
-            g2.drawString("GameOver", x, y);
-            g2.drawString("Score: " + counter, x, y+80);
+            g2.drawString("Game Over", x, y);
+            g2.drawString("Score: " + counter, x-20, y);
         }
     }
     public static void emptyCurrentFigure() {
         currentFigur = null;
     }
     public static void Gameover(){
-        GamePanel.gameOver = true;
+        GameMode1.gameOver = true;
     }
 }
