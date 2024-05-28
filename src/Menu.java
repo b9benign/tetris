@@ -71,7 +71,7 @@ public class Menu extends JPanel{
         ModeButtons gameMode3 = new ModeButtons(3);
         gameMode3.setFocusable(false);
         gameMode3.setBounds(420, 400, 400, 50);
-        gameMode2.setToolTipText("You like to fully Clear the Board, then you´re up for the Challenge!");
+        gameMode3.setToolTipText("You like to fully Clear the Board, then you´re up for the Challenge!");
         gameMode3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=3;

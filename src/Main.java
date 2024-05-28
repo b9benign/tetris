@@ -1,6 +1,7 @@
 package src;
 
 import javax.swing.JFrame;
+
 public class Main {
     public static int gameMode = 0;
     public static JFrame window = new JFrame("Tetris");

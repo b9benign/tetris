@@ -34,8 +34,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ESCAPE){
             if(pausePressed) {
                 pausePressed = false;
+                Sound.music.loop(0);
             }else{
                 pausePressed = true;
+                Sound.music.stop();
             }
         }
     }
