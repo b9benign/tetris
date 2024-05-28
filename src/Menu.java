@@ -51,7 +51,7 @@ public class Menu extends JPanel{
         gameMode1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=1;
-                Main.main(null);
+                Main.setWindow();
             }
         });
         add(gameMode1);
@@ -63,7 +63,7 @@ public class Menu extends JPanel{
         gameMode2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=2;
-                Main.main(null);
+                Main.setWindow();
             }
         });
         add(gameMode2);
@@ -75,7 +75,7 @@ public class Menu extends JPanel{
         gameMode3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=3;
-                Main.main(null);
+                Main.setWindow();
             }
         });
         add(gameMode3);
