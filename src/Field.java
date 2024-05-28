@@ -16,7 +16,7 @@ public class Field {
     public static int bottom_y;
     public static Block[][] FieldArray = new Block[20][12];
     public Field(){
-        left_x = (GameMode1.WIDTH/2) - (WIDTH/2);
+        left_x = (Game.WIDTH/2) - (WIDTH/2);
         right_x = left_x + WIDTH - BlockSize;
         top_y = 50;
         bottom_y = top_y + HEIGHT - BlockSize;
@@ -79,7 +79,7 @@ public class Field {
         }else if(i==4){
             PlayManager.counter += (PlayManager.level+1)*1200;
         }else{
-            System.out.println("error on removedLines Count");
+            PlayManager.counter += (PlayManager.level+1)*1500;
         }
     }
     public void update(){

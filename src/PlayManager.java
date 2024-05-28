@@ -10,13 +10,6 @@ import java.util.Random;
 
 import src.Blocks.Block;
 import src.Blocks.Figure;
-import src.Blocks.L_Piece;
-import src.Blocks.Line_Piece;
-import src.Blocks.Reverse_L_Piece;
-import src.Blocks.Reverse_Squiggly_Piece;
-import src.Blocks.Square_Piece;
-import src.Blocks.Squiggly_Piece;
-import src.Blocks.T_Piece;
 
 public class PlayManager {
     
@@ -31,8 +24,7 @@ public class PlayManager {
     public static int bottom_y;
 
     //Figur
-    static ArrayList<String> FigureList;
-    ArrayList<String> NextFigurList;
+    ArrayList<Figure> FigureList;
     static Figure currentFigur;
     static Figure nextFigur;
     final int nextFigurX;
@@ -44,11 +36,10 @@ public class PlayManager {
     //Interval/gameSpeed
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
 
-    public PlayManager(ArrayList<String> FigureList){
-        PlayManager.FigureList = FigureList;
-        this.NextFigurList = FigureList;
+    public PlayManager(ArrayList<Figure> FigureList){
+        this.FigureList = FigureList;
 
-        left_x = (GameMode1.WIDTH/2) - (WIDTH/2);
+        left_x = (Game.WIDTH/2) - (WIDTH/2);
         right_x = left_x + WIDTH;
         top_y = 50;
         bottom_y = top_y + HEIGHT;
@@ -62,30 +53,17 @@ public class PlayManager {
         currentFigur = pickRandomFigure(FigureList);
         currentFigur.setXY(FigurStartX, FigurStartY);
         nextFigur = pickRandomFigure(FigureList);
-        //spawn Squiggly_Piece (only for testing)
-        //currentFigur = new Squiggly_Piece();
     }
   
-    private Figure pickRandomFigure(ArrayList<String> FigureList){
-        String figureString = null;
+    private Figure pickRandomFigure(ArrayList<Figure> FigureList){
         Figure figure = null;
         int i = new Random().nextInt(FigureList.size());
-        figureString =  FigureList.get(i);
-        if(figureString=="L_Piece"){
-            figure = new L_Piece();
-        }else if(figureString=="Reverse_L_Piece"){
-            figure = new Reverse_L_Piece();
-        }else if(figureString=="Squiggly_Piece"){
-            figure = new Squiggly_Piece();
-        }else if(figureString=="Reverse_Squiggly_Piece"){
-            figure = new Reverse_Squiggly_Piece();
-        }else if(figureString=="Square_Piece"){
-            figure = new Square_Piece();
-        }else if(figureString=="T_Piece"){
-            figure = new T_Piece();
-        }else if(figureString=="Line_Piece"){
-            figure = new Line_Piece();
-        }
+        Color color = FigureList.get(i).c;
+        int arrayWidth = FigureList.get(i).arrayWidth;
+        int[] visible = FigureList.get(i).visible;
+
+        figure = new Figure(color, arrayWidth, visible);
+        
         return figure;
     };
 
@@ -93,7 +71,7 @@ public class PlayManager {
         if(currentFigur==null){
             currentFigur = nextFigur;
             currentFigur.setXY(FigurStartX, FigurStartY);
-            nextFigur = pickRandomFigure(NextFigurList);
+            nextFigur = pickRandomFigure(FigureList);
         }else{
             currentFigur.active = true;
             currentFigur.update();
@@ -123,6 +101,7 @@ public class PlayManager {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("NEXT", x+60, y+60);
 
+        //draw Info on left Side
         g2.drawString(String.valueOf(counter), 100, 100);
         
         if(currentFigur != null){
@@ -132,7 +111,6 @@ public class PlayManager {
             nextFigur.setXY(nextFigurX, nextFigurY);
             nextFigur.draw(g2);
         }
-        //nextFigur.draw(g2);
         
         if(KeyHandler.pausePressed){
             x = left_x + 80;
@@ -145,7 +123,7 @@ public class PlayManager {
             g2.setFont(g2.getFont().deriveFont(50f));
             g2.drawString("PAUSED", x, y-40);
         }
-        if(GameMode1.gameOver || GameMode2.gameOver || GameMode3.gameOver){
+        if(Game.gameOver){
             x = left_x + 80;
             y = top_y + 320;
             g2.setColor(Color.white);
@@ -160,14 +138,5 @@ public class PlayManager {
     }
     public static void emptyCurrentFigure() {
         currentFigur = null;
-    }
-    public static void Gameover(){
-        if(Main.gameMode==1){
-            GameMode1.gameOver = true;
-        }else if(Main.gameMode==2){
-            GameMode2.gameOver = true;
-        }else if(Main.gameMode==3){
-            GameMode3.gameOver = true;
-        }
     }
 }
