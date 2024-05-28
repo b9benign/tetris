@@ -43,8 +43,19 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
     }
 
     public void run() {
-        revalidate();
-        repaint();
+        double drawInterval = 1000000000 /60;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        while(pieceCreationThread != null){
+            currentTime = System.nanoTime();
+            delta += (currentTime- lastTime) / drawInterval;
+            lastTime = currentTime;
+            if(delta >= 1){
+                update();
+                delta--;
+            }
+        }
         update();
     };
 
@@ -108,8 +119,8 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
         buttons[1] = new JButton("Add Piece"); //Add Piece
         buttons[1].setBounds(PANEL_WIDTH - (2 * pieceDisplaySize), PANEL_HEIGHT-(buttonHeight), pieceDisplaySize, buttonHeight);
         buttons[1].addActionListener(e -> {
-            System.out.println("SELECTED OPTIONS: " + pieceBuilder.getSelectedOptions());
-            System.out.println("CUSTOM-PIECES: " + this.customPieces);
+            System.out.println("PANEL_SELECTION: " + pieceBuilder.getSelectedOptions());
+            System.out.println("PANEL_AVAILABLE: " + pieceBuilder.getAvailableOptionsAmount());
         });
 
         buttons[2] = new JButton("Play");

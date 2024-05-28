@@ -1,6 +1,7 @@
 package src.PieceBuilder;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -20,8 +21,9 @@ public class PieceBuilder extends JPanel {
         clearCurrent();
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setLayout(new GridLayout(BUILDER_SIZE, BUILDER_SIZE));
+
         create();
-        availableOptionsAmount = 13;
+        availableOptionsAmount = 5;
         fetchValidTargets();
     }
 
@@ -89,12 +91,24 @@ public class PieceBuilder extends JPanel {
         selectedOptions.add(identifier);
         fetchValidTargets();
         updatePieceOptionsFromPieceBuilderState();
-        System.out.println("SELECTED OPTIONs: " + this.selectedOptions);
     }
 
     private void updatePieceOptionsFromPieceBuilderState() {
-        for (PieceOption pieceOption : this.options) {
-            pieceOption.updateColorFromPieceBuilderState(this);
+        for (PieceOption pieceOption : options) {
+            int identifier = pieceOption.getIdentifier();
+            boolean isSelected = selectedOptions.contains(identifier);
+            boolean isValid = validTargets.contains(identifier);
+
+            if (isSelected) {
+                pieceOption.setBackground(Color.RED);
+                pieceOption.setBorder(new LineBorder(Color.BLACK));
+            } else if (isValid) {
+                pieceOption.setBackground(Color.BLACK);
+                pieceOption.setBorder(new LineBorder(Color.WHITE));
+            } else {
+                pieceOption.setBackground(Color.BLACK);
+                pieceOption.setBorder(new LineBorder(Color.DARK_GRAY));
+            }
         }
     }
 
