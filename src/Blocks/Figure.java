@@ -9,6 +9,7 @@ import java.util.Set;
 
 import src.KeyHandler;
 import src.PlayManager;
+import src.Sound;
 import src.Field;
 
 public class Figure {
@@ -73,11 +74,13 @@ public class Figure {
     }
 
     private void rotateLeft() {             //counter-clockwise rotation
+        Sound.se.play(3, false);
         ArrayList<Integer> tempIdx = new ArrayList<>();
 
         for (int i = 0; i < arrayWidth; i++) {
             for (int j = 0; j < arrayWidth; j++) {
                 if(b[(i * arrayWidth + j)].visible) {
+
                     tempIdx.add(j * arrayWidth + (arrayWidth - 1 - i));
 
                 }
@@ -91,6 +94,7 @@ public class Figure {
     };
 
     private void rotateRight() {            //clockwise rotation
+        Sound.se.play(3, false);
         ArrayList<Integer> tempIdx = new ArrayList<>();
         for (int i = 0; i < arrayWidth; i++) {
             for (int j = 0; j < arrayWidth; j++) {
@@ -221,9 +225,12 @@ public class Figure {
                 for(int i=0; i < b.length; i++){
                     if(b[i].y<=PlayManager.top_y){
                         PlayManager.Gameover();
+                        Sound.music.stop();
+                        Sound.se.play(2, false);
                     }else{
                         PlayManager.emptyCurrentFigure();
                         setFieldBlocks();
+                        Sound.se.play(4, false);
                     }
                 }
             }
