@@ -18,14 +18,33 @@ public class Sound {
         url[4] = getClass().getResource("resources/touch_floor.wav");
     }
 
+    private boolean isValidIndex(int index) {
+        return index >= 0 && index < url.length && url[index] != null;
+    }
+
+    private void loadClip(Clip clip, int index) throws Exception {
+        AudioInputStream ais = AudioSystem.getAudioInputStream(url[index]);
+        clip.open(ais);
+    }
+
+    private void setVolume(Clip clip, float volume) {
+        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
+        volumeControl.setValue(dB);
+    }
+
     public void play(int index, boolean isMusic) {
-        if (index < 0 || index >= url.length || url[index] == null) {
+        if (!isValidIndex(index)) {
             System.err.println("Invalid sound index or URL not found.");
             return;
         }
 
-        try (AudioInputStream ais = AudioSystem.getAudioInputStream(url[index])) {
+        try {
             Clip clip = AudioSystem.getClip();
+            loadClip(clip, index);
+
+            // Set volume (example value: 0.5 for 50% volume)
+            setVolume(clip, 0.5f);
 
             if (isMusic) {
                 if (musicClip != null && musicClip.isRunning()) {
@@ -35,12 +54,12 @@ public class Sound {
                 musicClip = clip;
             }
 
-            clip.open(ais);
             clip.addLineListener(event -> {
                 if (event.getType() == LineEvent.Type.STOP) {
                     clip.close();
                 }
             });
+
             clip.start();
 
         } catch (Exception e) {
@@ -49,18 +68,23 @@ public class Sound {
     }
 
     public void loop(int index) {
-        if (index < 0 || index >= url.length || url[index] == null) {
+        if (!isValidIndex(index)) {
             System.err.println("Invalid sound index or URL not found.");
             return;
         }
 
-        try (AudioInputStream ais = AudioSystem.getAudioInputStream(url[index])) {
+        try {
             if (musicClip != null && musicClip.isRunning()) {
                 musicClip.stop();
                 musicClip.close();
             }
+
             musicClip = AudioSystem.getClip();
-            musicClip.open(ais);
+            loadClip(musicClip, index);
+
+            // Set volume (example value: 0.5 for 50% volume)
+            setVolume(musicClip, 0.05f);
+
             musicClip.loop(Clip.LOOP_CONTINUOUSLY);
 
         } catch (Exception e) {
