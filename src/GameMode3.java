@@ -102,7 +102,6 @@ public class GameMode3 extends JPanel implements Runnable{
             backToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
-                Main.setWindow();
                 KeyHandler.pausePressed=false;
             }
 
@@ -116,7 +115,6 @@ public class GameMode3 extends JPanel implements Runnable{
             backToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
-                Main.setWindow();
                 gameOver=false;
                 }
             });

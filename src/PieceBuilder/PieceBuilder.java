@@ -7,8 +7,8 @@ import java.util.List;
 
 public class PieceBuilder extends JPanel {
 
-    private static final int BUILDER_PANEL_HEIGHT = 400;
-    private static final int BUILDER_PANEL_WIDTH = 400;
+    private static final int PANEL_HEIGHT = 480;
+    private static final int PANEL_WIDTH = 480;
     private static final int BUILDER_SIZE = 5;
 
     private final PieceOption[] options = new PieceOption[BUILDER_SIZE*BUILDER_SIZE];
@@ -18,44 +18,23 @@ public class PieceBuilder extends JPanel {
 
     public PieceBuilder() {
         clearCurrent();
-        setPreferredSize(new Dimension(BUILDER_PANEL_WIDTH, BUILDER_PANEL_HEIGHT));
+        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setLayout(new GridLayout(BUILDER_SIZE, BUILDER_SIZE));
         create();
-        availableOptionsAmount = 5;
+        availableOptionsAmount = 13;
         fetchValidTargets();
     }
 
-    public void clearCurrent() {
-        selectedOptions.clear();
-        selectedOptions.add(12);
-        availableOptionsAmount = 5;
-        fetchValidTargets();
+    public static int getPanelWidth() {
+        return PANEL_WIDTH;
     }
 
-    public void create() {
-        removeAll();
-        for (int i = 0; i < BUILDER_SIZE * BUILDER_SIZE; i++) {
-            PieceOption pieceOption = new PieceOption(i);
-            pieceOption.addActionListener(e -> {
-                PieceOption pieceOption1 = (PieceOption) e.getSource();
-                handleOptionClick(pieceOption1);
-            });
-            options[i] = pieceOption;
-            add(pieceOption);
-        }
-        updatePieceOptionsFromPieceBuilderState();
-        revalidate();
-        repaint();
+    public static int getPanelHeight() {
+        return PANEL_HEIGHT;
     }
 
-    public void handleOptionClick(PieceOption pieceOption) {
-
-        int identifier = pieceOption.getIdentifier();
-        if(selectedOptions.contains(identifier) || !validTargets.contains(identifier)) return;
-
-        selectedOptions.add(identifier);
-        fetchValidTargets();
-        updatePieceOptionsFromPieceBuilderState();
+    public int getAvailableOptionsAmount() {
+        return availableOptionsAmount;
     }
 
     public Set<Integer> getSelectedOptions() {
@@ -66,6 +45,53 @@ public class PieceBuilder extends JPanel {
         return validTargets;
     }
 
+    public void clearCurrent() {
+        selectedOptions.clear();
+        selectedOptions.add(12);
+        availableOptionsAmount = 5;
+        fetchValidTargets();
+        create();
+    }
+
+    public CustomPiece createCustomPieceFromCurrentBuilder() {
+
+        int adjustedSize = getLargestSideOfOptions();
+        PieceOption[] minimizedOptions = minimizeOptionsWhitespace(adjustedSize);
+        int[] visibleBlocks = mapOptionsToIndices(minimizedOptions);
+
+        System.out.println("VISIBLE BLOCKS: " + Arrays.toString(visibleBlocks));
+        System.out.println("ADJUSTED SIZE: " + adjustedSize);
+
+        return new CustomPiece(visibleBlocks, adjustedSize);
+    }
+
+    private void create() {
+        removeAll();
+        for (int i = 0; i < BUILDER_SIZE * BUILDER_SIZE; i++) {
+            PieceOption pieceOption = new PieceOption(i);
+            pieceOption.addActionListener(e -> {
+                PieceOption pieceOption1 = (PieceOption) e.getSource();
+                handleOptionClick(pieceOption1);
+            });
+            pieceOption.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            options[i] = pieceOption;
+            add(pieceOption);
+        }
+        updatePieceOptionsFromPieceBuilderState();
+        revalidate();
+        repaint();
+    }
+
+    private void handleOptionClick(PieceOption pieceOption) {
+
+        int identifier = pieceOption.getIdentifier();
+        if(selectedOptions.contains(identifier) || !validTargets.contains(identifier)) return;
+        selectedOptions.add(identifier);
+        fetchValidTargets();
+        updatePieceOptionsFromPieceBuilderState();
+        System.out.println("SELECTED OPTIONs: " + this.selectedOptions);
+    }
+
     private void updatePieceOptionsFromPieceBuilderState() {
         for (PieceOption pieceOption : this.options) {
             pieceOption.updateColorFromPieceBuilderState(this);
@@ -74,10 +100,7 @@ public class PieceBuilder extends JPanel {
 
     private void fetchValidTargets() {
         if(!validTargets.isEmpty()) validTargets.clear();
-        if(availableOptionsAmount <= 0) {
-            createCustomPieceFromCurrentBuilder();
-            return;
-        }
+        if(availableOptionsAmount <= 0) return;
         for(int selectedOption : selectedOptions) {
             int[] neighbors = {
                     selectedOption - BUILDER_SIZE,
@@ -97,16 +120,23 @@ public class PieceBuilder extends JPanel {
         availableOptionsAmount--;
     }
 
-    public void createCustomPieceFromCurrentBuilder() {
+    private int getLargestSideOfOptions() {
+        int top = BUILDER_SIZE;
+        int left = BUILDER_SIZE;
+        int bottom = 0;
+        int right = 0;
 
-        int adjustedSize = getLargestSideOfOptions();
-        PieceOption[] minimizedOptions = minimizeOptionsWhitespace(adjustedSize);
-        int[] visibleBlocks = mapOptionsToIndices(minimizedOptions);
-
-        System.out.println("VISIBLE BLOCKS: " + Arrays.toString(visibleBlocks));
-        System.out.println("ADJUSTED SIZE: " + adjustedSize);
-
-        new CustomPiece(visibleBlocks, adjustedSize);
+        for(int i = 0; i < BUILDER_SIZE; i++) {
+            for(int j = 0; j < BUILDER_SIZE; j++) {
+                if(selectedOptions.contains(options[i * BUILDER_SIZE + j].getIdentifier())) {
+                    top = Math.min(top, i);
+                    left = Math.min(left, j);
+                    bottom = Math.max(bottom, i);
+                    right = Math.max(right, j);
+                }
+            }
+        }
+        return Math.max((right - left + 1), (bottom - top + 1));
     }
 
     private PieceOption[] minimizeOptionsWhitespace(int newSize) {
@@ -136,25 +166,6 @@ public class PieceBuilder extends JPanel {
         return minimizedOptions;
     }
 
-    private int getLargestSideOfOptions() {
-        int top = BUILDER_SIZE;
-        int left = BUILDER_SIZE;
-        int bottom = 0;
-        int right = 0;
-
-        for(int i = 0; i < BUILDER_SIZE; i++) {
-            for(int j = 0; j < BUILDER_SIZE; j++) {
-                if(selectedOptions.contains(options[i * BUILDER_SIZE + j].getIdentifier())) {
-                    top = Math.min(top, i);
-                    left = Math.min(left, j);
-                    bottom = Math.max(bottom, i);
-                    right = Math.max(right, j);
-                }
-            }
-        }
-        return Math.max((right - left + 1), (bottom - top + 1));
-    }
-
     private int[] mapOptionsToIndices(PieceOption[] minimizedOptions) {
         List<Integer> visibleBlocks = new ArrayList<>();
 
@@ -167,11 +178,4 @@ public class PieceBuilder extends JPanel {
         }
         return visibleBlocks.stream().mapToInt(i -> i).toArray();
     }
-
-    //TODO: CustomPiecesCreationPanel -> parent of PieceBuilder, takes in 7 custom pieces
-        //can call "pieceBuilder.clearCurrent()" and "this.reset()"
-        //if all 7 spaces filled: enable StartGame-Button -> new Panel with GameMode2(CustomPieces)
-        //ReturnButton to main screen/ game mode selection
-    //TODO: PieceDisplay
-        //takes in X extends Figure -> display it for use in CustomPiecesCreationPanel and "NextPiece" in every game mode
 }

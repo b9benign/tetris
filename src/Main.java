@@ -1,5 +1,7 @@
 package src;
 
+import src.PieceBuilder.CustomPiecesCreationPanel;
+
 import javax.swing.JFrame;
 
 public class Main {
@@ -7,7 +9,8 @@ public class Main {
     public static JFrame window = new JFrame("Tetris");
     static Menu menu = new Menu();
     static GameMode1 gm1 = new GameMode1();
-    static GameMode2 gm2 = new GameMode2();
+    //static GameMode2 gm2 = new GameMode2();
+    static CustomPiecesCreationPanel creationPanel = new CustomPiecesCreationPanel();
     static GameMode3 gm3 = new GameMode3();
     public static void main (String[] args) {
 
@@ -20,7 +23,7 @@ public class Main {
         window.setVisible(true);
     }
     public static void setWindow(){
-        
+
         if(gameMode==0){
             menu = new Menu();
             window.add(menu);
@@ -33,13 +36,16 @@ public class Main {
             window.validate();
             gm1.launchMode1();
         }else if(gameMode==2){
-            gm2 = new GameMode2();
-            window.add(gm2);
+            creationPanel = new CustomPiecesCreationPanel();
+
+            //gm2 = new GameMode2();
+            //window.add(gm2);
+            window.add(creationPanel);
             window.remove(menu);
             window.validate();
             //after custom figure draw
-            gm2.launchMode2();
-            
+            creationPanel.launch();
+
         }else if(gameMode==3){
             gm3 = new GameMode3();
             window.add(gm3);
