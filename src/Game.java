@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -48,6 +49,21 @@ public class Game extends JPanel implements Runnable{
         }
         pm = new PlayManager(FigureList);
         field = new Field();
+        if(Main.gameMode==3){
+            addRandomBlocks();
+        }
+    }
+    public void addRandomBlocks(){
+        for(int i=0; i<6;i++){
+            for(int o = 0; o<12;o++){
+                int rand = new Random().nextInt(10)+1;
+                if(rand>4){
+                    Color color = Field.getRandomColor();
+                    Field.FieldArray[i][o].c = color;
+                    Field.FieldArray[i][o].visible = true;
+                }
+            }
+        }
     }
     public void addCustomPieces(){
         
