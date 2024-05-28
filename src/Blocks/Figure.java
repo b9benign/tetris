@@ -11,20 +11,30 @@ import src.KeyHandler;
 import src.PlayManager;
 import src.Sound;
 import src.Field;
+import src.Game;
 
 public class Figure {
     //public Color c; and Array
-
     public Block b[] = new Block[0];
     public int arrayLength;
     public int arrayWidth;
+    public Color c;
+    public int[] visible;
     boolean rightCollision, leftCollision, bottomCollision, rotationCollision;
     public boolean active;
     int autoDropCounter = 0;
     int rotateCounter = 0;
     int waitNewBlockCounter = 0;
 
-    public Block[] create(Color c, int arrayWidth) {
+    public Figure(Color c, int arrayWidth, int[] visible){
+        this.b = create(c, arrayWidth, visible);
+        this.c = c;
+        this.visible = visible;
+
+        setVisible(visible);
+    }
+
+    public Block[] create(Color c, int arrayWidth, int[] visible) {
         this.arrayWidth = arrayWidth;
         this.arrayLength = arrayWidth * arrayWidth;
 
@@ -44,10 +54,14 @@ public class Figure {
         }
     }
     public void setXY(int x, int y){
-        
-    }
-    public void updateXY(int direction){
-
+        int o = 0;
+        for(int i=0; i<b.length ;i++){
+            b[i].x = x + (i-o*(arrayWidth))*Block.SIZE;
+            b[i].y = y + o*Block.SIZE;
+            if((i+1)%arrayWidth==0){
+                o++;
+            }
+        }
     }
     public void rotate(){
         if(rotationCollision==false && active){
@@ -224,9 +238,9 @@ public class Figure {
             if(waitNewBlockCounter>=10){
                 for(int i=0; i < b.length; i++){
                     if(b[i].y<=PlayManager.top_y){
-                        PlayManager.Gameover();
                         Sound.music.stop();
                         Sound.se.play(2, false);
+                        Game.gameOver = true;
                     }else{
                         PlayManager.emptyCurrentFigure();
                         setFieldBlocks();
@@ -273,5 +287,8 @@ public class Figure {
                 }
             }
         }
+    }
+    public Color getColor(){
+        return c;
     }
 }
