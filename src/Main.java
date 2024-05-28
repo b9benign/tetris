@@ -1,12 +1,18 @@
 package src;
 
+import src.Blocks.Figure;
+import src.PieceBuilder.CustomPiecesCreationPanel;
+
 import javax.swing.JFrame;
+import java.util.ArrayList;
 
 public class Main {
     public static int gameMode = 0;
     public static JFrame window = new JFrame("Tetris");
     static Menu menu = new Menu();
     static Game game = new Game();
+    static CustomPiecesCreationPanel panel = new CustomPiecesCreationPanel();
+    public static ArrayList<Figure> figureList = new ArrayList<>();
     public static void main (String[] args) {
 
         setWindow();
@@ -24,7 +30,19 @@ public class Main {
             window.add(menu);
             window.remove(game);
             window.validate();
-        }else{
+        } else if (gameMode==2) {
+            panel = new CustomPiecesCreationPanel();
+            window.add(panel);
+            window.remove(menu);
+            window.validate();
+            panel.launch();
+        } else if (gameMode==4) {
+            game = new Game(figureList);
+            window.add(game);
+            window.remove(menu);
+            window.validate();
+            game.launch();
+        } else {
             game = new Game();
             window.add(game);
             window.remove(menu);

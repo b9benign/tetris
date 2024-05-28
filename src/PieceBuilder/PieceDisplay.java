@@ -1,13 +1,12 @@
 package src.PieceBuilder;
 
 import src.Blocks.Figure;
-import src.Blocks.L_Piece;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PieceDisplay extends JPanel {
-    Figure piece;
+    Figure piece = null;
     private final int displaySize, posX, posY;
 
     public PieceDisplay(int displaySize, int posX, int posY) {
@@ -17,6 +16,11 @@ public class PieceDisplay extends JPanel {
         this.posY = posY;
     }
 
+    public void setPiece(Figure piece) {
+        this.piece = piece;
+        repaint();
+    };
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -25,11 +29,11 @@ public class PieceDisplay extends JPanel {
     }
 
     public void draw(Graphics2D g2d) {
-        Figure piece = new L_Piece();
-
         super.paintComponent(g2d);
-        piece.setXY( posX + 50, posY + 50);
-        piece.draw(g2d);
+        if(piece != null) {
+            piece.setXY( posX + 50, posY + 50);
+            piece.draw(g2d);
+        }
         g2d.setColor(Color.GRAY);
         g2d.drawRect(posX, posY, displaySize, displaySize);
     }

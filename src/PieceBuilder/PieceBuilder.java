@@ -1,5 +1,7 @@
 package src.PieceBuilder;
 
+import src.Blocks.Figure;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -23,7 +25,7 @@ public class PieceBuilder extends JPanel {
         setLayout(new GridLayout(BUILDER_SIZE, BUILDER_SIZE));
 
         create();
-        availableOptionsAmount = 5;
+        availableOptionsAmount = 13;
         fetchValidTargets();
     }
 
@@ -50,12 +52,12 @@ public class PieceBuilder extends JPanel {
     public void clearCurrent() {
         selectedOptions.clear();
         selectedOptions.add(12);
-        availableOptionsAmount = 5;
+        availableOptionsAmount = 13;
         fetchValidTargets();
         create();
     }
 
-    public CustomPiece createCustomPieceFromCurrentBuilder() {
+    public Figure createCustomPieceFromCurrentBuilder() {
 
         int adjustedSize = getLargestSideOfOptions();
         PieceOption[] minimizedOptions = minimizeOptionsWhitespace(adjustedSize);
@@ -63,8 +65,8 @@ public class PieceBuilder extends JPanel {
 
         System.out.println("VISIBLE BLOCKS: " + Arrays.toString(visibleBlocks));
         System.out.println("ADJUSTED SIZE: " + adjustedSize);
-
-        return new CustomPiece(visibleBlocks, adjustedSize);
+        clearCurrent();
+        return new Figure(Color.ORANGE, adjustedSize, visibleBlocks);
     }
 
     private void create() {
