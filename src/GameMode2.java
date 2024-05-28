@@ -20,7 +20,6 @@ public class GameMode2 extends JPanel implements Runnable{
     Thread GameMode2;
     PlayManager pm;
     Field field;
-
     public GameMode2() {
 
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -45,6 +44,7 @@ public class GameMode2 extends JPanel implements Runnable{
     }
     public void launchMode2(){
         GameMode2 = new Thread(this);
+        Sound.music.loop(0);
         GameMode2.start();
         PlayManager.FigureList.addAll(null);
     }

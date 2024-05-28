@@ -58,6 +58,7 @@ public class GameMode3 extends JPanel implements Runnable{
     }
     public void launchMode3(){
         GameMode3 = new Thread(this);
+        Sound.music.loop(0);
         GameMode3.start();
         addRandomBlocks();
     }

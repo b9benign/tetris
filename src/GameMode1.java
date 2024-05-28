@@ -46,6 +46,7 @@ public class GameMode1 extends JPanel implements Runnable{
     }
     public void launchMode1(){
         GameMode1 = new Thread(this);
+        Sound.music.loop(0);
         GameMode1.start();
     }
     public void run(){
