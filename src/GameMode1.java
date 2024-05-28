@@ -46,6 +46,7 @@ public class GameMode1 extends JPanel implements Runnable{
     }
     public void launchMode1(){
         GameMode1 = new Thread(this);
+        Sound.music.loop(0);
         GameMode1.start();
     }
     public void run(){
@@ -88,10 +89,22 @@ public class GameMode1 extends JPanel implements Runnable{
             backToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
-                Main.main(null);
+                Main.setWindow();
                 KeyHandler.pausePressed=false;
-            }
-
+                }
+            });
+            add(backToMenu);
+        }
+        if(gameOver){
+            JButton backToMenu = new JButton("Back to Menu");
+            backToMenu.setFocusable(false);
+            backToMenu.setBounds(440, 380, 400, 50);
+            backToMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                Main.gameMode=0;
+                Main.setWindow();
+                gameOver=false;
+                }
             });
             add(backToMenu);
         }
