@@ -27,10 +27,9 @@ public class Sound {
         clip.open(ais);
     }
 
-    private void setVolume(Clip clip, float volume) {
+    private void setVolume(Clip clip) {
         FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
-        volumeControl.setValue(dB);
+        volumeControl.setValue(-40f);
     }
 
     public void play(int index, boolean isMusic) {
@@ -43,8 +42,7 @@ public class Sound {
             Clip clip = AudioSystem.getClip();
             loadClip(clip, index);
 
-            // Set volume (example value: 0.05 for 5% volume)
-            setVolume(clip, 0.5f);
+            setVolume(clip);
 
             if (isMusic) {
                 if (musicClip != null && musicClip.isRunning()) {
@@ -83,7 +81,7 @@ public class Sound {
             loadClip(musicClip, index);
 
             // Set volume (example value: 0.5 for 50% volume)
-            setVolume(musicClip, 0.05f);
+            setVolume(musicClip);
 
             musicClip.loop(Clip.LOOP_CONTINUOUSLY);
 

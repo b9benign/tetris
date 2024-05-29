@@ -126,6 +126,7 @@ public class PlayManager {
 
         //draw Info on right Side
         g2.drawString("Score: " + String.valueOf(counter), 900, 100);
+        g2.drawString("Level: " + String.valueOf(level), 900, 200);
         
         if(currentFigur != null){
             currentFigur.draw(g2);
@@ -155,8 +156,8 @@ public class PlayManager {
             g2.drawRect(left_x-50, y-200, WIDTH+100, HEIGHT/2);
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(50f));
-            g2.drawString("Game Over", x-40, y);
-            g2.drawString("Score: " + counter, x-20, y);
+            g2.drawString("Game Over", x-40, y-90);
+            g2.drawString("Score: " + counter, x-10, y-40);
         }
     }
     public static void emptyCurrentFigure() {

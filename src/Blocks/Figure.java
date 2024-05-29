@@ -16,13 +16,14 @@ import src.Game;
 
 public class Figure {
     //public Color c; and Array
-    public Block b[] = new Block[0];
-    public int arrayLength;
+    private Block b[] = new Block[0];
+    private int arrayLength;
     public int arrayWidth;
     public Color c;
     public int[] visible;
-    boolean rightCollision, leftCollision, bottomCollision, rotationCollision;
     public boolean active;
+    
+    boolean rightCollision, leftCollision, bottomCollision, rotationCollision;
     int autoDropCounter = 0;
     int rotateCounter = 0;
     int waitNewBlockCounter = 0;
@@ -35,7 +36,7 @@ public class Figure {
         setVisible(visible);
     }
 
-    public Block[] create(Color c, int arrayWidth, int[] visible) {
+    private Block[] create(Color c, int arrayWidth, int[] visible) {
         this.arrayWidth = arrayWidth;
         this.arrayLength = arrayWidth * arrayWidth;
 
@@ -45,7 +46,7 @@ public class Figure {
         }
         return b;
     };
-    public void setVisible(int[] blockIndices){
+    private void setVisible(int[] blockIndices){
         Set<Integer> set = new HashSet<>();
         for (int num : blockIndices) {
             set.add(num);
@@ -64,7 +65,7 @@ public class Figure {
             }
         }
     }
-    public void rotate(){
+    private void rotate(){
         if(rotationCollision==false && active){
             if (KeyHandler.keyQPressed) {
                 if(rotateCounter>=15){
@@ -130,7 +131,7 @@ public class Figure {
         }
         setVisible(newIdx);
     };
-    public void checkMovementCollision(){
+    private void checkMovementCollision(){
         leftCollision = false;
         rightCollision = false;
         bottomCollision = false;
@@ -183,7 +184,7 @@ public class Figure {
             }
         }
     }
-    public void checkRotationCollision(){
+    private void checkRotationCollision(){
         //if Block[] overlaps Left Wall, Dont allow rotation
         for(int i = 0; i < b.length; i++){
             if(b[i].x + Block.SIZE == PlayManager.left_x){
@@ -245,7 +246,7 @@ public class Figure {
                     if(b[i].y<=PlayManager.top_y){
                         Sound.music.stop();
                         if(Main.gameMode!=0){
-                            Sound.se.play(2, false);
+                            //Sound.se.play(2, false);
                         }
                         Game.gameOver = true;
                     }else{
@@ -277,7 +278,7 @@ public class Figure {
                     g2.setColor(b[i].c);    //color from figur
                     g2.fillRect(b[i].x, b[i].y, Block.SIZE, Block.SIZE);
                     g2.setColor(Color.BLACK);
-                    g2.drawRect(b[i].x, b[i].y, Block.SIZE, Block.SIZE); 
+                    g2.drawRect(b[i].x, b[i].y, Block.SIZE, Block.SIZE);
                 }
             }
             if(i==(this.arrayWidth*(o+1))-1){ // if i is longer than array width then go to next row
@@ -285,7 +286,7 @@ public class Figure {
             }
         }
     }
-    public void setFieldBlocks(){
+    private void setFieldBlocks(){
         for(int i = 0; i < Field.FieldArray.length;i++){
             for(int o = 0; o < Field.FieldArray[i].length;o++){
                 for(int j = 0; j < b.length; j++){

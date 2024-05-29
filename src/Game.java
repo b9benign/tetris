@@ -132,7 +132,7 @@ public class Game extends JPanel implements Runnable{
             });
             add(backToMenu);
         }
-        if(!KeyHandler.pausePressed){
+        if(!KeyHandler.pausePressed && !gameOver){
             removeAll();
         }
         if(gameOver){
