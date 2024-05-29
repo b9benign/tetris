@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import src.Blocks.Figure;
+import src.PieceBuilder.CustomPiecesCreationPanel;
 
 public class Game extends JPanel implements Runnable{
     
@@ -22,6 +23,7 @@ public class Game extends JPanel implements Runnable{
 
     public static boolean gameOver = false;
     Thread GameThread;
+    CustomPiecesCreationPanel creationPanel;
     PlayManager pm;
     Field field;
 
@@ -33,7 +35,6 @@ public class Game extends JPanel implements Runnable{
         this.addKeyListener(new KeyHandler());
         this.setFocusable(true);
 
-        //create FigureList for Gamemode1
         ArrayList<Figure> FigureList = new ArrayList<Figure>();
         
         FigureList.add(new Figure(Color.green, 3, new int[]{1, 2, 3, 4}));
@@ -44,9 +45,10 @@ public class Game extends JPanel implements Runnable{
         FigureList.add(new Figure(Color.magenta, 3, new int[]{1, 3, 4, 5}));
         FigureList.add(new Figure(Color.CYAN, 4, new int[]{2, 6, 10, 14}));
 
-        if(Main.gameMode==2){
-            addCustomPieces();
+        if(Main.gameMode == 3) {
+
         }
+
         pm = new PlayManager(FigureList);
         field = new Field();
         if(Main.gameMode==3){
@@ -65,9 +67,18 @@ public class Game extends JPanel implements Runnable{
             }
         }
     }
-    public void addCustomPieces(){
-        
-    };
+
+    public Game(ArrayList<Figure> figureList) {
+        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        this.setBackground(Color.black);
+        this.setLayout(null);
+        this.addKeyListener(new KeyHandler());
+        this.setFocusable(true);
+
+        pm = new PlayManager(figureList);
+        field = new Field();
+    }
+
     public void launch(){
         GameThread = new Thread(this);
         if(Main.gameMode!=0){
@@ -115,7 +126,6 @@ public class Game extends JPanel implements Runnable{
             backToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
-                Main.setWindow();
                 KeyHandler.pausePressed=false;
                 }
             });
@@ -128,7 +138,6 @@ public class Game extends JPanel implements Runnable{
             backToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
-                Main.setWindow();
                 gameOver=false;
                 }
             });
