@@ -16,16 +16,16 @@ public class PieceDisplay extends JPanel {
         this.posY = posY;
     }
 
-    public void setPiece(Figure piece) {
-        this.piece = piece;
-        repaint();
-    };
+    public int[] getPos() {
+        return new int[]{posX, posY};
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         draw(g2d);
+
     }
 
     public void draw(Graphics2D g2d) {

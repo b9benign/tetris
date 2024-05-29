@@ -37,18 +37,6 @@ public class PieceBuilder extends JPanel {
         return PANEL_HEIGHT;
     }
 
-    public int getAvailableOptionsAmount() {
-        return availableOptionsAmount;
-    }
-
-    public Set<Integer> getSelectedOptions() {
-        return selectedOptions;
-    }
-
-    public Set<Integer> getValidTargets() {
-        return validTargets;
-    }
-
     public void clearCurrent() {
         selectedOptions.clear();
         selectedOptions.add(12);
@@ -63,10 +51,8 @@ public class PieceBuilder extends JPanel {
         PieceOption[] minimizedOptions = minimizeOptionsWhitespace(adjustedSize);
         int[] visibleBlocks = mapOptionsToIndices(minimizedOptions);
 
-        System.out.println("VISIBLE BLOCKS: " + Arrays.toString(visibleBlocks));
-        System.out.println("ADJUSTED SIZE: " + adjustedSize);
         clearCurrent();
-        return new Figure(Color.ORANGE, adjustedSize, visibleBlocks);
+        return new Figure(fetchRandomColor(), adjustedSize, visibleBlocks);
     }
 
     private void create() {
@@ -102,7 +88,7 @@ public class PieceBuilder extends JPanel {
             boolean isValid = validTargets.contains(identifier);
 
             if (isSelected) {
-                pieceOption.setBackground(Color.RED);
+                pieceOption.setBackground(Color.GREEN);
                 pieceOption.setBorder(new LineBorder(Color.BLACK));
             } else if (isValid) {
                 pieceOption.setBackground(Color.BLACK);
@@ -193,5 +179,12 @@ public class PieceBuilder extends JPanel {
             }
         }
         return visibleBlocks.stream().mapToInt(i -> i).toArray();
+    }
+
+    private Color fetchRandomColor() {
+        Color[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.PINK, Color.BLACK };
+        Random random = new Random();
+        int randomIndex = random.nextInt(colors.length);
+        return colors[randomIndex];
     }
 }

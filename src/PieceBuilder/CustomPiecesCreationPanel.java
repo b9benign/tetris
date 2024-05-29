@@ -8,7 +8,9 @@ import src.ModeButtons;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 //TODO: CustomPiecesCreationPanel -> parent of PieceBuilder, takes in 7 custom pieces
@@ -24,17 +26,26 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
     public static final int PANEL_HEIGHT = 720;
     public final int pieceDisplaySize = PieceBuilder.getPanelHeight() / 2;
     private final ArrayList<Figure> customPieces;
+    private final int[][] pieceDisplaysCoords;
+    private int customPieceAmount;
 
     Thread pieceCreationThread;
     PieceBuilder pieceBuilder;
     PieceDisplay[] pieceDisplays;
-
 
     public CustomPiecesCreationPanel() {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.BLACK);
         setLayout(null);
         setFocusable(true);
+        setVisible(true);
+
+        pieceDisplaysCoords = new int[7][2];
+        customPieceAmount = 0;
+
+        initializePieceBuilder();
+        initializeButtons();
+        initializePieceDisplaysCoords();
 
         customPieces = new ArrayList<>();
     }
@@ -58,17 +69,15 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
                 delta--;
             }
         }
-        update();
     }
 
-    public void update() {}
+    public void update() {
+        revalidate();
+        repaint();
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        initializePieceBuilder();
-        initializePieceDisplays(g);
-        initializeButtons();
     }
 
     private void initializePieceBuilder() {
@@ -81,21 +90,14 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
         this.add(pieceBuilder);
     }
 
-    private void initializePieceDisplays(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        pieceDisplays = new PieceDisplay[7];
+    private void initializePieceDisplaysCoords() {
         int displayFieldSize = 3;
         int x = 1;
         int y = 1;
         for (int i = 0; i < 7; i++) {
             int inversion = 6 - i;
-            pieceDisplays[inversion] = new PieceDisplay(
-                    pieceDisplaySize,
-                    pieceDisplaySize * (3 - x),
-                    PANEL_HEIGHT - (pieceDisplaySize * y)
-            );
-            pieceDisplays[inversion].draw(g2d);
+            pieceDisplaysCoords[inversion][0] = pieceDisplaySize * (3 - x);
+            pieceDisplaysCoords[inversion][1] = PANEL_HEIGHT - (pieceDisplaySize * y);
             if(x >= displayFieldSize) {
                 x = 1;
                 y++;
@@ -113,24 +115,29 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
         buttons[0].setBounds(0, 0, pieceDisplaySize, buttonHeight);
         buttons[0].addActionListener(e -> {
             Main.gameMode=0;
-            Main.main(null);
+            Main.setWindow();
             KeyHandler.pausePressed=false;
         });
 
-        buttons[1] = new JButton("Add Piece"); //Add Piece
+        buttons[1] = new JButton("Add Piece");
         buttons[1].setBounds(PANEL_WIDTH - (2 * pieceDisplaySize), PANEL_HEIGHT-(buttonHeight), pieceDisplaySize, buttonHeight);
         buttons[1].addActionListener(e -> {
-            System.out.println("PANEL_SELECTION: " + pieceBuilder.getSelectedOptions());
-            System.out.println("PANEL_AVAILABLE: " + pieceBuilder.getAvailableOptionsAmount());
+            int inversion = 7 - customPieceAmount;
+            if (inversion <= 0) {
+                buttons[1].setEnabled(false);
+                buttons[2].setEnabled(true);
+                return;
+            }
             customPieces.add(pieceBuilder.createCustomPieceFromCurrentBuilder());
+            customPieceAmount++;
 
-            pieceDisplays[0].setPiece(customPieces.getFirst());
-
-            System.out.println("CUSTOM PIECES: " + customPieces);
+            pieceBuilder.clearCurrent();
+            System.out.println("NEW_AMOUNT: " + customPieceAmount);
         });
 
-        buttons[2] = new ModeButtons(4);
+        buttons[2] = new JButton("Play");
         buttons[2].setBounds(PANEL_WIDTH - pieceDisplaySize, PANEL_HEIGHT-(buttonHeight), pieceDisplaySize, buttonHeight);
+        buttons[2].setEnabled(false);
         buttons[2].addActionListener(e -> {
             Main.figureList.clear();
             Main.figureList.addAll(customPieces);
@@ -147,7 +154,11 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
         buttons[4] = new JButton("Reset All");
         buttons[4].setBounds(PANEL_WIDTH - pieceDisplaySize, 0, pieceDisplaySize, buttonHeight);
         buttons[4].addActionListener(e -> {
-
+            customPieceAmount = 0;
+            customPieces.clear();
+            pieceBuilder.clearCurrent();
+            buttons[1].setEnabled(true);
+            buttons[2].setEnabled(false);
         });
 
         for(JButton button : buttons) {
