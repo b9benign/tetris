@@ -127,21 +127,26 @@ public class Game extends JPanel implements Runnable{
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
                 KeyHandler.pausePressed=false;
+                Main.setWindow();
                 }
             });
             add(backToMenu);
         }
+        if(!KeyHandler.pausePressed){
+            removeAll();
+        }
         if(gameOver){
-            JButton backToMenu = new JButton("Back to Menu");
-            backToMenu.setFocusable(false);
-            backToMenu.setBounds(440, 380, 400, 50);
-            backToMenu.addActionListener(new ActionListener() {
+            JButton gameOverButton = new JButton("Back to Menu");
+            gameOverButton.setFocusable(false);
+            gameOverButton.setBounds(440, 380, 400, 50);
+            gameOverButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
                 gameOver=false;
+                Main.setWindow();
                 }
             });
-            add(backToMenu);
+            add(gameOverButton);
         }
     }
 }
