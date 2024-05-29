@@ -26,6 +26,7 @@ public class Game extends JPanel implements Runnable{
     CustomPiecesCreationPanel creationPanel;
     PlayManager pm;
     Field field;
+    KeyHandler KeyHandler;
 
     public Game() {
 
@@ -34,6 +35,7 @@ public class Game extends JPanel implements Runnable{
         this.setLayout(null);
         this.addKeyListener(new KeyHandler());
         this.setFocusable(true);
+        this.requestFocusInWindow();
 
         ArrayList<Figure> FigureList = new ArrayList<Figure>();
         
@@ -44,10 +46,6 @@ public class Game extends JPanel implements Runnable{
         FigureList.add(new Figure(Color.BLUE, 3, new int[]{0, 3, 4, 5}));
         FigureList.add(new Figure(Color.magenta, 3, new int[]{1, 3, 4, 5}));
         FigureList.add(new Figure(Color.CYAN, 4, new int[]{2, 6, 10, 14}));
-
-        if(Main.gameMode == 3) {
-
-        }
 
         pm = new PlayManager(FigureList);
         field = new Field();
@@ -74,6 +72,7 @@ public class Game extends JPanel implements Runnable{
         this.setLayout(null);
         this.addKeyListener(new KeyHandler());
         this.setFocusable(true);
+        this.requestFocusInWindow();
 
         pm = new PlayManager(figureList);
         field = new Field();
@@ -88,13 +87,12 @@ public class Game extends JPanel implements Runnable{
     }
     public void run(){
         // Game Loop
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = (double) 1000000000 /FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
         while(GameThread != null){
-
             currentTime = System.nanoTime();
 
             delta += (currentTime- lastTime) / drawInterval;
@@ -108,7 +106,7 @@ public class Game extends JPanel implements Runnable{
         }
     }
     private void update(){
-        if(KeyHandler.pausePressed==false || gameOver){
+        if(!KeyHandler.pausePressed || gameOver){
             pm.update();
             field.update();
         }
@@ -120,6 +118,7 @@ public class Game extends JPanel implements Runnable{
         field.draw(g2);
         pm.draw(g2);
         if(KeyHandler.pausePressed){
+            System.out.println("PAUSE");
             JButton backToMenu = new JButton("Back to Menu");
             backToMenu.setFocusable(false);
             backToMenu.setBounds(440, 380, 400, 50);
