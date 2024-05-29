@@ -97,12 +97,36 @@ public class PlayManager {
         int y = bottom_y - 200;
         g2.drawRect(x, y, 200, 200);
 
+        g2.setColor(Color.lightGray);
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("NEXT", x+60, y+60);
 
         //draw Info on left Side
-        g2.drawString(String.valueOf(counter), 100, 100);
+        g2.drawString("Keybinds: ", 100, 100);
+
+        g2.drawString("Esc", 100, 150);
+        g2.drawString("-> Pause", 170, 150);
+
+        g2.drawString("A", 100, 200);
+        g2.drawString("-> Move Left", 170, 200);
+
+        g2.drawString("D", 100, 250);
+        g2.drawString("-> Move Right", 170, 250);
+
+        g2.drawString("S", 100, 300);
+        g2.drawString("-> Move Down", 170, 300);
+
+        g2.drawString("Q", 100, 350);
+        g2.drawString("-> Rotate Left", 170, 350);
+
+        g2.drawString("E", 100, 400);
+        g2.drawString("-> Rotate Right", 170, 400);
+
+
+        //draw Info on right Side
+        g2.drawString("Score: " + String.valueOf(counter), 900, 100);
+        g2.drawString("Level: " + String.valueOf(level), 900, 200);
         
         if(currentFigur != null){
             currentFigur.draw(g2);
@@ -132,8 +156,8 @@ public class PlayManager {
             g2.drawRect(left_x-50, y-200, WIDTH+100, HEIGHT/2);
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(50f));
-            g2.drawString("Game Over", x-40, y);
-            g2.drawString("Score: " + counter, x-20, y);
+            g2.drawString("Game Over", x-40, y-90);
+            g2.drawString("Score: " + counter, x-10, y-40);
         }
     }
     public static void emptyCurrentFigure() {
