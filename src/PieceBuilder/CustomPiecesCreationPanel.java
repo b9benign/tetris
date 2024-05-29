@@ -3,22 +3,11 @@ package src.PieceBuilder;
 import src.Blocks.Figure;
 import src.KeyHandler;
 import src.Main;
-import src.ModeButtons;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-
-//TODO: CustomPiecesCreationPanel -> parent of PieceBuilder, takes in 7 custom pieces
-//can call "pieceBuilder.clearCurrent()" and "this.reset()"
-//if all 7 spaces filled: enable StartGame-Button -> new Panel with GameMode2(CustomPieces)
-//ReturnButton to main screen/ game mode selection
-//TODO: PieceDisplay
-//takes in X extends Figure -> display it for use in CustomPiecesCreationPanel and "NextPiece" in every game mode
 
 public class CustomPiecesCreationPanel extends JPanel implements Runnable {
 
