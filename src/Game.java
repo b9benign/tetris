@@ -70,7 +70,9 @@ public class Game extends JPanel implements Runnable{
     };
     public void launch(){
         GameThread = new Thread(this);
-        Sound.music.loop(0);
+        if(Main.gameMode!=0){
+            Sound.music.loop(0);
+        }
         GameThread.start();
     }
     public void run(){

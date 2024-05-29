@@ -8,6 +8,7 @@ import java.util.Set;
 
 
 import src.KeyHandler;
+import src.Main;
 import src.PlayManager;
 import src.Sound;
 import src.Field;
@@ -87,8 +88,10 @@ public class Figure {
         }
     }
 
-    private void rotateLeft() {             //counter-clockwise rotation
-        Sound.se.play(3, false);
+    private void rotateLeft() { 
+        if(Main.gameMode!=0){            //counter-clockwise rotation
+            Sound.se.play(3, false);
+        }
         ArrayList<Integer> tempIdx = new ArrayList<>();
 
         for (int i = 0; i < arrayWidth; i++) {
@@ -107,8 +110,10 @@ public class Figure {
         setVisible(newIdx);
     };
 
-    private void rotateRight() {            //clockwise rotation
-        Sound.se.play(3, false);
+    private void rotateRight() {     
+        if(Main.gameMode!=0){       //clockwise rotation
+            Sound.se.play(3, false);
+        }
         ArrayList<Integer> tempIdx = new ArrayList<>();
         for (int i = 0; i < arrayWidth; i++) {
             for (int j = 0; j < arrayWidth; j++) {
@@ -239,12 +244,16 @@ public class Figure {
                 for(int i=0; i < b.length; i++){
                     if(b[i].y<=PlayManager.top_y){
                         Sound.music.stop();
-                        Sound.se.play(2, false);
+                        if(Main.gameMode!=0){
+                            Sound.se.play(2, false);
+                        }
                         Game.gameOver = true;
                     }else{
                         PlayManager.emptyCurrentFigure();
                         setFieldBlocks();
-                        Sound.se.play(4, false);
+                        if(Main.gameMode!=0){
+                            Sound.se.play(4, false);
+                        }
                     }
                 }
             }

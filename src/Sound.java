@@ -43,7 +43,7 @@ public class Sound {
             Clip clip = AudioSystem.getClip();
             loadClip(clip, index);
 
-            // Set volume (example value: 0.5 for 50% volume)
+            // Set volume (example value: 0.05 for 5% volume)
             setVolume(clip, 0.5f);
 
             if (isMusic) {

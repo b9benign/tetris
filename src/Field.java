@@ -69,7 +69,9 @@ public class Field {
         return color;
     }
     public void addPointByRows(int i){
-        Sound.se.play(1, false);
+        if(Main.gameMode!=0){
+            Sound.se.play(1, false);
+        }
         if(i==1){
             PlayManager.counter += (PlayManager.level+1)*40;
         }else if(i==2){
