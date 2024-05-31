@@ -29,6 +29,7 @@ public class Main {
             menu = new Menu();
             window.add(menu);
             window.remove(game);
+            window.remove(panel);
             window.validate();
         } else if (gameMode==2) {
             panel = new CustomPiecesCreationPanel();
@@ -38,10 +39,12 @@ public class Main {
             panel.launch();
         } else if (gameMode==4) {
             game = new Game(figureList);
-            window.add(game);
             window.remove(menu);
+            window.remove(panel);
+            window.add(game);
             window.validate();
             game.launch();
+            game.requestFocusInWindow();
         } else {
             game = new Game();
             window.add(game);
