@@ -95,7 +95,7 @@ public class PlayManager {
         //Draw next Block Frame
         int x = right_x + 100;
         int y = bottom_y - 200;
-        g2.drawRect(x, y, 200, 200);
+        g2.drawRect(x, y, 250, 250);
 
         g2.setColor(Color.lightGray);
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -132,7 +132,7 @@ public class PlayManager {
             currentFigur.draw(g2);
         }
         if(nextFigur!=null){
-            nextFigur.setXY(nextFigurX, nextFigurY);
+            nextFigur.setXY(nextFigurX + 15, nextFigurY + 15);
             nextFigur.draw(g2);
         }
         

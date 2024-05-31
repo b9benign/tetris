@@ -13,14 +13,15 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
 
     public static final int PANEL_WIDTH = 1280;
     public static final int PANEL_HEIGHT = 720;
-    public final int pieceDisplaySize = PieceBuilder.getPanelHeight() / 2;
+
     private final ArrayList<Figure> customPieces;
-    private final int[][] pieceDisplaysCoords;
     private int customPieceAmount;
+
+    private final int pieceDisplaySize = PieceBuilder.getPanelHeight() / 2;
+    private final int[][] pieceDisplaysCoords;
 
     Thread pieceCreationThread;
     PieceBuilder pieceBuilder;
-    PieceDisplay[] pieceDisplays;
 
     public CustomPiecesCreationPanel() {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -66,7 +67,18 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
     }
 
     public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g);
+
+        if (!customPieces.isEmpty()) {
+            for (int i = 0; i < customPieces.size(); i++) {
+                int posX = pieceDisplaysCoords[i][0] + pieceDisplaySize / 4;
+                int posY = pieceDisplaysCoords[i][1] + pieceDisplaySize / 4;
+                Figure currentPiece = customPieces.get(i);
+                currentPiece.setXY(posX, posY);
+                currentPiece.draw(g2d);
+            }
+        }
     }
 
     private void initializePieceBuilder() {
@@ -87,6 +99,7 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
             int inversion = 6 - i;
             pieceDisplaysCoords[inversion][0] = pieceDisplaySize * (3 - x);
             pieceDisplaysCoords[inversion][1] = PANEL_HEIGHT - (pieceDisplaySize * y);
+            drawDisplayFrameAtDisplayCoords(pieceDisplaysCoords[inversion][0], pieceDisplaysCoords[inversion][1]);
             if(x >= displayFieldSize) {
                 x = 1;
                 y++;
@@ -97,6 +110,7 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
     }
 
     private void initializeButtons() {
+        //create every necessary button and assign respective functionality
         int buttonHeight = pieceDisplaySize / 3;
         JButton[] buttons = new JButton[5];
 
@@ -111,23 +125,23 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
         buttons[1] = new JButton("Add Piece");
         buttons[1].setBounds(PANEL_WIDTH - (2 * pieceDisplaySize), PANEL_HEIGHT-(buttonHeight), pieceDisplaySize, buttonHeight);
         buttons[1].addActionListener(e -> {
-            int inversion = 7 - customPieceAmount;
-            if (inversion <= 0) {
+            int maxAmount = 7;
+            Figure newPiece = pieceBuilder.createCustomPieceFromCurrentBuilder();
+            customPieces.add(newPiece);
+            customPieceAmount++;
+            pieceBuilder.clearCurrent();
+
+            if (customPieceAmount == maxAmount) {
                 buttons[1].setEnabled(false);
                 buttons[2].setEnabled(true);
-                return;
             }
-            customPieces.add(pieceBuilder.createCustomPieceFromCurrentBuilder());
-            customPieceAmount++;
-
-            pieceBuilder.clearCurrent();
-            System.out.println("NEW_AMOUNT: " + customPieceAmount);
         });
 
         buttons[2] = new JButton("Play");
         buttons[2].setBounds(PANEL_WIDTH - pieceDisplaySize, PANEL_HEIGHT-(buttonHeight), pieceDisplaySize, buttonHeight);
         buttons[2].setEnabled(false);
         buttons[2].addActionListener(e -> {
+            System.out.println("SIZE: " + customPieces.size());
             Main.figureList.clear();
             Main.figureList.addAll(customPieces);
             Main.gameMode=4;
@@ -159,5 +173,20 @@ public class CustomPiecesCreationPanel extends JPanel implements Runnable {
             button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             this.add(button);
         }
+    }
+
+    private void drawDisplayFrameAtDisplayCoords(int posX, int posY) {
+        JPanel displayFrame = new JPanel();
+
+        displayFrame.setSize(pieceDisplaySize, pieceDisplaySize);
+        displayFrame.setLocation(posX, posY);
+
+        displayFrame.setBorder(new LineBorder(Color.DARK_GRAY));
+        displayFrame.setOpaque(false);
+        displayFrame.setBackground(null);
+
+        add(displayFrame);
+        repaint();
+        revalidate();
     }
 }
