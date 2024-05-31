@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel{
-    public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+    private static final int WIDTH = 1280;
+    private static final int HEIGHT = 720;
 
     public Menu(){
 
@@ -26,7 +26,7 @@ public class Menu extends JPanel{
     public void update(){
         repaint();
     }
-    public void draw(Graphics2D g2){
+    private void draw(Graphics2D g2){
         int x = 450;
         int y = 120;
         g2.setFont(g2.getFont().deriveFont(100f));
@@ -43,7 +43,7 @@ public class Menu extends JPanel{
         g2.setColor(Color.MAGENTA);
         g2.drawString("S", x+268, y);
     }
-    public void createButtons(){
+    private void createButtons(){
         ModeButtons gameMode1 = new ModeButtons(1);
         gameMode1.setFocusable(false);
         gameMode1.setBounds(420, 200, 400, 50);
