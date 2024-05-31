@@ -18,7 +18,7 @@ import src.PieceBuilder.CustomPiecesCreationPanel;
 public class Game extends JPanel implements Runnable{
     
     public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+    private static final int HEIGHT = 720;
     final int FPS = 60;
 
     public static boolean gameOver = false;
@@ -53,7 +53,7 @@ public class Game extends JPanel implements Runnable{
             addRandomBlocks();
         }
     }
-    public void addRandomBlocks(){
+    private void addRandomBlocks(){
         for(int i=0; i<6;i++){
             for(int o = 0; o<12;o++){
                 int rand = new Random().nextInt(10)+1;

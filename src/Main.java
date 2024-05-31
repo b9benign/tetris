@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static int gameMode = 0;
-    public static JFrame window = new JFrame("Tetris");
+    private static JFrame window = new JFrame("Tetris");
     static Menu menu = new Menu();
     static Game game = new Game();
     static CustomPiecesCreationPanel panel = new CustomPiecesCreationPanel();

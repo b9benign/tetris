@@ -52,6 +52,7 @@ public class PlayManager {
         //spawn random Figure, that is inside the FigureList
         currentFigur = pickRandomFigure(FigureList);
         currentFigur.setXY(FigurStartX, FigurStartY);
+        //pick random nextFigur
         nextFigur = pickRandomFigure(FigureList);
     }
   
@@ -68,20 +69,21 @@ public class PlayManager {
     };
 
     public void update(){
-        if(currentFigur==null){
+        if(currentFigur==null&&dropInterval>Figure.autoDropCounter){
             currentFigur = nextFigur;
             currentFigur.setXY(FigurStartX, FigurStartY);
             nextFigur = pickRandomFigure(FigureList);
-        }else{
+        }else if(currentFigur!=null){
             currentFigur.active = true;
             currentFigur.update();
         }
         if(nextFigur!=null){
             nextFigur.active=false;
         }
-        if(counter>=(level+1)*1000){
+        if(counter>=(level+1)*100 && Main.gameMode==1){ // every 100 point, change level
+            //normal is 1000, but for showing the speeding up we used 100
             level++;
-            dropInterval--;
+            dropInterval-=5;
             //color Theme change
         }
     }
@@ -103,30 +105,56 @@ public class PlayManager {
         g2.drawString("NEXT", x+60, y+60);
 
         //draw Info on left Side
-        g2.drawString("Keybinds: ", 100, 100);
+        g2.drawString("Keybinds: ", 80, 80);
 
-        g2.drawString("Esc", 100, 150);
-        g2.drawString("-> Pause", 170, 150);
+        g2.setColor(Color.lightGray);
+        g2.drawString("Esc", 80, 130);
+        g2.drawString("-> Pause", 130, 130);
 
-        g2.drawString("A", 100, 200);
-        g2.drawString("-> Move Left", 170, 200);
+        g2.setColor(Color.GRAY);
+        g2.drawString("A", 80, 180);
+        g2.drawString("-> Move Left", 130, 180);
 
-        g2.drawString("D", 100, 250);
-        g2.drawString("-> Move Right", 170, 250);
+        g2.setColor(Color.lightGray);
+        g2.drawString("D", 80, 230);
+        g2.drawString("-> Move Right", 130, 230);
 
-        g2.drawString("S", 100, 300);
-        g2.drawString("-> Move Down", 170, 300);
+        g2.setColor(Color.GRAY);
+        g2.drawString("S", 80, 280);
+        g2.drawString("-> Move Down", 130, 280);
 
-        g2.drawString("Q", 100, 350);
-        g2.drawString("-> Rotate Left", 170, 350);
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.drawString("Q", 80, 330);
+        g2.drawString("-> Rotate Left", 130, 330);
 
-        g2.drawString("E", 100, 400);
-        g2.drawString("-> Rotate Right", 170, 400);
+        g2.setColor(Color.GRAY);
+        g2.drawString("E", 80, 380);
+        g2.drawString("-> Rotate Right", 130, 380);
 
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.drawString("M", 80, 600);
+        if(KeyHandler.mutePressed){
+            g2.drawString("-> Deactivate Sounds", 130, 600);
+        }else{
+            g2.drawString("-> Activate Sounds", 130, 600);
+        }
 
         //draw Info on right Side
-        g2.drawString("Score: " + String.valueOf(counter), 900, 100);
-        g2.drawString("Level: " + String.valueOf(level), 900, 200);
+        
+        g2.drawString("Score: " + String.valueOf(counter), 920, 80);
+        int levelcolor=level%5;
+        if(levelcolor==1){
+            g2.setColor(Color.RED);
+        }else if(levelcolor==2){
+            g2.setColor(Color.GREEN);
+        }else if(levelcolor==3){
+            g2.setColor(Color.BLUE);
+        }else if(levelcolor==4){
+            g2.setColor(Color.YELLOW);
+        }else{
+            g2.setColor(Color.ORANGE);
+        }
+        g2.drawString("Level: " + String.valueOf(level), 920, 130);
         
         if(currentFigur != null){
             currentFigur.draw(g2);

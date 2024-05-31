@@ -24,7 +24,7 @@ public class Figure {
     public boolean active;
     
     boolean rightCollision, leftCollision, bottomCollision, rotationCollision;
-    int autoDropCounter = 0;
+    public static int autoDropCounter = 0;
     int rotateCounter = 0;
     int waitNewBlockCounter = 0;
 
@@ -230,7 +230,7 @@ public class Figure {
         }
         if(KeyHandler.downPressed && active){
             if(bottomCollision == false){
-                if(b[0].y + (arrayWidth+2)*Block.SIZE<=PlayManager.bottom_y){
+                if(b[0].y + (arrayWidth)*Block.SIZE<=PlayManager.bottom_y){
                     for(int i=0; i < b.length; i++){
                         b[i].y += Block.SIZE;
                     }
@@ -239,14 +239,14 @@ public class Figure {
             KeyHandler.downPressed = false;
         }
         //Figure reaches Bottom/lowest possible point
-        if(bottomCollision==true && autoDropCounter==PlayManager.dropInterval/2){
+        if(bottomCollision==true && autoDropCounter>=PlayManager.dropInterval/2){
             waitNewBlockCounter++;
-            if(waitNewBlockCounter>=10){
+            if(waitNewBlockCounter>=5){
                 for(int i=0; i < b.length; i++){
                     if(b[i].y<=PlayManager.top_y){
                         Sound.music.stop();
                         if(Main.gameMode!=0){
-                            //Sound.se.play(2, false);
+                            Sound.se.play(2, false);
                         }
                         Game.gameOver = true;
                     }else{
@@ -260,7 +260,7 @@ public class Figure {
             }
         }else{ //autodrop
             autoDropCounter++;
-            if(autoDropCounter==PlayManager.dropInterval){
+            if(autoDropCounter>=PlayManager.dropInterval){
                 if(bottomCollision==false){
                     for(int i=0; i < b.length; i++){
                         b[i].y += Block.SIZE;
