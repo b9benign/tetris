@@ -13,7 +13,6 @@ public class KeyHandler extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("HANDLER");
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W){
             upPressed = true;
