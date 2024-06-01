@@ -169,5 +169,6 @@ public class PlayManager {
         }else if(Main.gameMode==3){
             GameMode3.gameOver = true;
         }
+        Scoreboard.writeScore(counter);
     }
 }
