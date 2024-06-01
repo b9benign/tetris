@@ -186,6 +186,8 @@ public class PlayManager {
             g2.setFont(g2.getFont().deriveFont(50f));
             g2.drawString("Game Over", x-40, y-90);
             g2.drawString("Score: " + counter, x-10, y-40);
+            Scoreboard.writeScore(counter);
+            Scoreboard.logHighscores();
         }
     }
     public static void emptyCurrentFigure() {
