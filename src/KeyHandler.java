@@ -1,11 +1,13 @@
 package src;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyHandler implements KeyListener {
 
-    public static boolean upPressed, downPressed, rightPressed, leftPressed, keyQPressed, keyEPressed, pausePressed;
+public class KeyHandler extends JFrame implements KeyListener {
+
+    public static boolean upPressed, downPressed, rightPressed, leftPressed, keyQPressed, keyEPressed, pausePressed, mutePressed;
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -37,6 +39,15 @@ public class KeyHandler implements KeyListener {
                 Sound.music.loop(0);
             }else{
                 pausePressed = true;
+                Sound.music.stop();
+            }
+        }
+        if (code == KeyEvent.VK_M){
+            if(mutePressed){
+                mutePressed=false;
+                Sound.music.loop(0);
+            }else{
+                mutePressed=true;
                 Sound.music.stop();
             }
         }

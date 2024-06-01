@@ -18,54 +18,80 @@ public class Sound {
         url[4] = getClass().getResource("resources/touch_floor.wav");
     }
 
+    private boolean isValidIndex(int index) {
+        return index >= 0 && index < url.length && url[index] != null;
+    }
+
+    private void loadClip(Clip clip, int index) throws Exception {
+        AudioInputStream ais = AudioSystem.getAudioInputStream(url[index]);
+        clip.open(ais);
+    }
+
+    private void setVolume(Clip clip) {
+        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        volumeControl.setValue(-40f);
+    }
+
     public void play(int index, boolean isMusic) {
-        if (index < 0 || index >= url.length || url[index] == null) {
-            System.err.println("Invalid sound index or URL not found.");
-            return;
-        }
-
-        try (AudioInputStream ais = AudioSystem.getAudioInputStream(url[index])) {
-            Clip clip = AudioSystem.getClip();
-
-            if (isMusic) {
-                if (musicClip != null && musicClip.isRunning()) {
-                    musicClip.stop();
-                    musicClip.close();
-                }
-                musicClip = clip;
+        if(!KeyHandler.mutePressed){
+            if (!isValidIndex(index)) {
+                System.err.println("Invalid sound index or URL not found.");
+                return;
             }
-
-            clip.open(ais);
-            clip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP) {
-                    clip.close();
+    
+            try {
+                Clip clip = AudioSystem.getClip();
+                loadClip(clip, index);
+    
+                setVolume(clip);
+    
+                if (isMusic) {
+                    if (musicClip != null && musicClip.isRunning()) {
+                        musicClip.stop();
+                        musicClip.close();
+                    }
+                    musicClip = clip;
                 }
-            });
-            clip.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    
+                clip.addLineListener(event -> {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        clip.close();
+                    }
+                });
+    
+                clip.start();
+    
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void loop(int index) {
-        if (index < 0 || index >= url.length || url[index] == null) {
-            System.err.println("Invalid sound index or URL not found.");
-            return;
-        }
-
-        try (AudioInputStream ais = AudioSystem.getAudioInputStream(url[index])) {
-            if (musicClip != null && musicClip.isRunning()) {
-                musicClip.stop();
-                musicClip.close();
+        if(!KeyHandler.mutePressed){
+            if (!isValidIndex(index)) {
+                System.err.println("Invalid sound index or URL not found.");
+                return;
             }
-            musicClip = AudioSystem.getClip();
-            musicClip.open(ais);
-            musicClip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    
+            try {
+                if (musicClip != null && musicClip.isRunning()) {
+                    musicClip.stop();
+                    musicClip.close();
+                }
+    
+                musicClip = AudioSystem.getClip();
+                loadClip(musicClip, index);
+    
+                // Set volume (example value: 0.5 for 50% volume)
+                setVolume(musicClip);
+    
+                musicClip.loop(Clip.LOOP_CONTINUOUSLY);
+    
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } 
     }
 
     public void stop() {

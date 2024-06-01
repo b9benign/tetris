@@ -1,14 +1,18 @@
 package src;
 
+import src.Blocks.Figure;
+import src.PieceBuilder.CustomPiecesCreationPanel;
+
 import javax.swing.JFrame;
+import java.util.ArrayList;
 
 public class Main {
     public static int gameMode = 0;
-    public static JFrame window = new JFrame("Tetris");
+    private static JFrame window = new JFrame("Tetris");
     static Menu menu = new Menu();
-    static GameMode1 gm1 = new GameMode1();
-    static GameMode2 gm2 = new GameMode2();
-    static GameMode3 gm3 = new GameMode3();
+    static Game game = new Game();
+    static CustomPiecesCreationPanel panel = new CustomPiecesCreationPanel();
+    public static ArrayList<Figure> figureList = new ArrayList<>();
     public static void main (String[] args) {
 
         setWindow();
@@ -24,28 +28,29 @@ public class Main {
         if(gameMode==0){
             menu = new Menu();
             window.add(menu);
-            window.remove(gm1);
+            window.remove(game);
+            window.remove(panel);
             window.validate();
-        }else if(gameMode==1){
-            gm1 = new GameMode1();
-            window.add(gm1);
+        } else if (gameMode==2) {
+            panel = new CustomPiecesCreationPanel();
+            window.add(panel);
             window.remove(menu);
             window.validate();
-            gm1.launchMode1();
-        }else if(gameMode==2){
-            gm2 = new GameMode2();
-            window.add(gm2);
+            panel.launch();
+        } else if (gameMode==4) {
+            game = new Game(figureList);
+            window.remove(menu);
+            window.remove(panel);
+            window.add(game);
+            window.validate();
+            game.launch();
+            game.requestFocusInWindow();
+        } else {
+            game = new Game();
+            window.add(game);
             window.remove(menu);
             window.validate();
-            //after custom figure draw
-            gm2.launchMode2();
-            
-        }else if(gameMode==3){
-            gm3 = new GameMode3();
-            window.add(gm3);
-            window.remove(menu);
-            window.validate();
-            gm3.launchMode3();
+            game.launch();
         }
     }
 }

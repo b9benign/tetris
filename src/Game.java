@@ -12,39 +12,48 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class GameMode3 extends JPanel implements Runnable{
+import src.Blocks.Figure;
+import src.PieceBuilder.CustomPiecesCreationPanel;
+
+public class Game extends JPanel implements Runnable{
     
     public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+    private static final int HEIGHT = 720;
     final int FPS = 60;
+
     public static boolean gameOver = false;
-    Thread GameMode3;
+    Thread GameThread;
+    CustomPiecesCreationPanel creationPanel;
     PlayManager pm;
     Field field;
+    KeyHandler KeyHandler;
 
-    public GameMode3() {
+    public Game() {
 
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         this.setBackground(Color.black);
         this.setLayout(null);
-        //add Keylistener
         this.addKeyListener(new KeyHandler());
         this.setFocusable(true);
+        this.requestFocusInWindow();
 
-        //create FigureList for Gamemode1
-        ArrayList<String> FigureList = new ArrayList<String>();
-        FigureList.add("L_Piece");
-        FigureList.add("Reverse_L_Piece");
-        FigureList.add("Squiggly_Piece");
-        FigureList.add("Reverse_Squiggly_Piece");
-        FigureList.add("Square_Piece");
-        FigureList.add("T_Piece");
-        FigureList.add("Line_Piece");
+        ArrayList<Figure> FigureList = new ArrayList<Figure>();
+        
+        FigureList.add(new Figure(Color.green, 3, new int[]{1, 2, 3, 4}));
+        FigureList.add(new Figure(Color.red, 3, new int[]{0, 1, 4, 5}));
+        FigureList.add(new Figure(Color.yellow, 2, new int[]{0, 1, 2, 3}));
+        FigureList.add(new Figure(Color.orange, 3, new int[]{2, 3, 4, 5}));
+        FigureList.add(new Figure(Color.BLUE, 3, new int[]{0, 3, 4, 5}));
+        FigureList.add(new Figure(Color.magenta, 3, new int[]{1, 3, 4, 5}));
+        FigureList.add(new Figure(Color.CYAN, 4, new int[]{2, 6, 10, 14}));
 
         pm = new PlayManager(FigureList);
         field = new Field();
+        if(Main.gameMode==3){
+            addRandomBlocks();
+        }
     }
-    public void addRandomBlocks(){
+    private void addRandomBlocks(){
         for(int i=0; i<6;i++){
             for(int o = 0; o<12;o++){
                 int rand = new Random().nextInt(10)+1;
@@ -56,21 +65,34 @@ public class GameMode3 extends JPanel implements Runnable{
             }
         }
     }
-    public void launchMode3(){
-        GameMode3 = new Thread(this);
-        Sound.music.loop(0);
-        GameMode3.start();
-        addRandomBlocks();
+
+    public Game(ArrayList<Figure> figureList) {
+        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        this.setBackground(Color.black);
+        this.setLayout(null);
+        this.addKeyListener(new KeyHandler());
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+
+        pm = new PlayManager(figureList);
+        field = new Field();
+    }
+
+    public void launch(){
+        GameThread = new Thread(this);
+        if(Main.gameMode!=0){
+            Sound.music.loop(0);
+        }
+        GameThread.start();
     }
     public void run(){
         // Game Loop
-        double drawInterval = 1000000000 /FPS;
+        double drawInterval = (double) 1000000000 /FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while(GameMode3 != null){
-
+        while(GameThread != null){
             currentTime = System.nanoTime();
 
             delta += (currentTime- lastTime) / drawInterval;
@@ -84,7 +106,7 @@ public class GameMode3 extends JPanel implements Runnable{
         }
     }
     private void update(){
-        if(KeyHandler.pausePressed==false || gameOver){
+        if(!KeyHandler.pausePressed || gameOver){
             pm.update();
             field.update();
         }
@@ -96,31 +118,34 @@ public class GameMode3 extends JPanel implements Runnable{
         field.draw(g2);
         pm.draw(g2);
         if(KeyHandler.pausePressed){
+            System.out.println("PAUSE");
             JButton backToMenu = new JButton("Back to Menu");
             backToMenu.setFocusable(false);
             backToMenu.setBounds(440, 380, 400, 50);
             backToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 Main.gameMode=0;
-                Main.setWindow();
                 KeyHandler.pausePressed=false;
-            }
-
-            });
-            add(backToMenu);
-        }
-        if(gameOver){
-            JButton backToMenu = new JButton("Back to Menu");
-            backToMenu.setFocusable(false);
-            backToMenu.setBounds(440, 380, 400, 50);
-            backToMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                Main.gameMode=0;
                 Main.setWindow();
-                gameOver=false;
                 }
             });
             add(backToMenu);
+        }
+        if(!KeyHandler.pausePressed && !gameOver){
+            removeAll();
+        }
+        if(gameOver){
+            JButton gameOverButton = new JButton("Back to Menu");
+            gameOverButton.setFocusable(false);
+            gameOverButton.setBounds(440, 380, 400, 50);
+            gameOverButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                Main.gameMode=0;
+                gameOver=false;
+                Main.setWindow();
+                }
+            });
+            add(gameOverButton);
         }
     }
 }

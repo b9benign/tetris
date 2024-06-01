@@ -7,17 +7,15 @@ import java.util.Random;
 import src.Blocks.Block;
 
 public class Field {
-    public static int WIDTH = 360;
-    public static int HEIGHT = 600;
-    public static int BlockSize = 30;
-    public static int left_x;
-    public static int right_x;
-    public static int top_y;
-    public static int bottom_y;
+    private static int WIDTH = 360;
+    private static int HEIGHT = 600;
+    private static int BlockSize = 30;
+    private static int left_x;
+    private static int top_y;
+    private static int bottom_y;
     public static Block[][] FieldArray = new Block[20][12];
     public Field(){
-        left_x = (GameMode1.WIDTH/2) - (WIDTH/2);
-        right_x = left_x + WIDTH - BlockSize;
+        left_x = (Game.WIDTH/2) - (WIDTH/2);
         top_y = 50;
         bottom_y = top_y + HEIGHT - BlockSize;
         for(int i=0; i<20;i++){
@@ -28,7 +26,7 @@ public class Field {
             }
         }
     }
-    public void removeLine(int i){
+    private void removeLine(int i){
         for(int j=i;j<(20-i);j++){
             for(int o = 0; o<12;o++){
                 if(j==19){
@@ -68,8 +66,10 @@ public class Field {
         }
         return color;
     }
-    public void addPointByRows(int i){
-        Sound.se.play(1, false);
+    private void addPointByRows(int i){
+        if(Main.gameMode!=0){
+            Sound.se.play(1, false);
+        }
         if(i==1){
             PlayManager.counter += (PlayManager.level+1)*40;
         }else if(i==2){
@@ -79,7 +79,7 @@ public class Field {
         }else if(i==4){
             PlayManager.counter += (PlayManager.level+1)*1200;
         }else{
-            System.out.println("error on removedLines Count");
+            PlayManager.counter += (PlayManager.level+1)*1500;
         }
     }
     public void update(){
