@@ -166,7 +166,6 @@ public class Game extends JPanel implements Runnable{
         field.draw(g2);
         pm.draw(g2);
         if(KeyHandler.pausePressed){
-            System.out.println("PAUSE");
             JButton backToMenu = new JButton("Back to Menu");
             backToMenu.setFocusable(false);
             backToMenu.setBounds(440, 380, 400, 50);

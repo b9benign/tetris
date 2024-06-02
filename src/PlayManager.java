@@ -101,10 +101,14 @@ public class PlayManager {
         if(nextFigur!=null){
             nextFigur.active=false;
         }
-        if(counter>=(level+1)*100 && Main.gameMode==1){ // every 100 point, change level
+        if(counter>=(level+1)*100 && Main.gameMode==1 && dropInterval>=10){ // every 100 point, change level
             //normal is 1000, but for showing the speeding up we used 100
-            level++;
-            dropInterval-=5;
+            level=(counter/100);
+            if(level<=15){
+                dropInterval = dropInterval - level*3;
+            }else{
+                dropInterval=15;
+            }
             //color Theme change
         }
     }
