@@ -46,7 +46,7 @@ public class PlayManager {
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
 
     /**
-     * The Contruktor for the PlayManager, it takes the FigureList <code>ArrayList</code> and sets currentFigur and nextFigur.
+     * The Contructor for the PlayManager, it takes the FigureList <code>ArrayList</code> and sets currentFigur and nextFigur.
      * It also sets the spawn variables for nextFigur and currentFigur.
      * 
      * @see ArrayList

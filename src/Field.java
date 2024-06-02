@@ -7,10 +7,10 @@ import java.util.Random;
 import src.Blocks.Block;
 
 /**
- * This class creates a Field out of <code>Blocks</code>. 
+ * This class creates a Field out of <code>Blocks</code>.
  * 12 Blocks wide and 20 Blocks high.
- * It also handles what happenes when a Line is filled with Blocks.
- * The Field class is the one that changes the Score based on the amount of removed Lines.
+ * It also handles what happens when a line is filled with Blocks.
+ * The <code>Field</code> class is the one that changes the Score based on the amount of removed lines.
  *
  * @author Richard
  * @version 1.0
@@ -27,10 +27,11 @@ public class Field {
     public static Block[][] FieldArray = new Block[20][12];
 
     /**
-     * Construktor for Field class.
-     * Sets the Color of every Block to gray.
+     * Constructor for <code>Field</code> class.
+     * Sets the <code>Color</code> of every <code>Block</code> to gray.
      * And gives every Block the x and y of each left upper corner.
-     * 
+     *
+     * @see Color
      */
     public Field(){
         left_x = (Game.WIDTH/2) - (WIDTH/2);
@@ -60,7 +61,7 @@ public class Field {
     }
 
     /**
-     * returns on of the 7 Colors, is called by <code>addRandomBlocks</code> in the Game class.
+     * returns one of the 7 <code>Colors</code>, is called in the <code>Game </code> class.
      * 
      * @return Color
      * @see Game
@@ -110,9 +111,9 @@ public class Field {
     }
     /**
      * update is called 60 times per second (once per Frame),
-     * it checks if Lines are filled with Blocks and 
-     * gives a count on how many Lines where removed at once.
-     * it calls <code>addPointByRows</code> with the count of removed Lines.
+     * it checks if lines are filled with <code>Blocks</code> and
+     * gives a count on how many lines where removed at once.
+     * it calls <code>addPointByRows</code> with the count of removed lines.
      *
      */
     public void update(){
@@ -138,9 +139,9 @@ public class Field {
     }
     /**
      * This function, same as update, is also called every Frame.
-     * it uses <code>Graphics2D</code> to draw every Block in the Field Array.
+     * it uses <code>Graphics2D</code> to draw every <code>Block</code> in the <code>Field</code> array.
      * 
-     * @param g2
+     * @param g2 - the graphics object to protect
      * 
      * @see Graphics2D
      */

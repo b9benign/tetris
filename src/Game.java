@@ -40,10 +40,10 @@ public class Game extends JPanel implements Runnable{
     KeyHandler KeyH;
 
     /**
-     * overloaded Construktor for Game class.
+     * overloaded Constructor for Game class.
      * It does not take any parameters.
-     * Game sets the standard Variables for the JPanel.
-     * It creates an <code>ArrayList</code> of Figures and initializes the Field and PlayManager classes.
+     * Game sets the standard variables for the <code>JPanel</code>.
+     * It creates an <code>ArrayList</code> of <code>Figures</code> and initializes the <code>Field</code> and <code>PlayManager</code> classes.
      * For Gamemode 3 it also calls the <code>addRandomBlocks</code> function.
      */
     public Game() {
@@ -85,8 +85,8 @@ public class Game extends JPanel implements Runnable{
     }
 
     /**
-     * Construktor for Field class, wich takes an <code>ArrayList</code> of Figures.
-     * Game set the standard Variables for JPanel and initializes the Field and PlayManager classes.
+     * Constructor for <code>Field</code> class, which takes an <code>ArrayList</code> of <code>Figures</code>.
+     * Game set the standard Variables for <code>JPanel</code> and initializes the Field and <code>PlayManager</code> classes.
      * 
      * @see ArrayList
      */
