@@ -11,6 +11,15 @@ import java.util.Random;
 import src.Blocks.Block;
 import src.Blocks.Figure;
 
+/**
+ * This class manages the Game, it sets standard variables for the Figure spawns.
+ * It handles wich figure is spawned and where it will spawn.
+ * 
+ *
+ * @author Richard
+ * @version 2.0
+ * 
+ */
 public class PlayManager {
     
     //Main Area
@@ -36,6 +45,12 @@ public class PlayManager {
     //Interval/gameSpeed
     public static int dropInterval = 60; //drop every 60 Frames = 1 sec
 
+    /**
+     * The Contruktor for the PlayManager, it takes the FigureList <code>ArrayList</code> and sets currentFigur and nextFigur.
+     * It also sets the spawn variables for nextFigur and currentFigur.
+     * 
+     * @see ArrayList
+     */
     public PlayManager(ArrayList<Figure> FigureList){
         this.FigureList = FigureList;
 
@@ -68,6 +83,12 @@ public class PlayManager {
         return figure;
     };
 
+    /**
+     * update is called 60 times per second (once per Frame),
+     * it checks if there is a currentFigur, if not it will create a new one.
+     * It also changes the level based on the score
+     *
+     */
     public void update(){
         if(currentFigur==null&&dropInterval>Figure.autoDropCounter){
             currentFigur = nextFigur;
@@ -87,7 +108,12 @@ public class PlayManager {
             //color Theme change
         }
     }
-
+    /**
+     * draw is called 60 times per second (once per Frame),
+     * it writes the Keybinds on the left side of the screen, and the score, level and nextFigur on the right Side.
+     * It also creates small fields whenever Gameover or Pause is called.
+     *
+     */
     public void draw(Graphics2D g2){
         // Draw Play Area
         g2.setColor(Color.white);
@@ -190,6 +216,9 @@ public class PlayManager {
             Scoreboard.logHighscores();
         }
     }
+    /**
+     * this funtion empties the currentFigur, so update can set a new one
+     */
     public static void emptyCurrentFigure() {
         currentFigur = null;
     }

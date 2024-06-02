@@ -6,6 +6,17 @@ import java.util.Random;
 
 import src.Blocks.Block;
 
+/**
+ * This class creates a Field out of <code>Blocks</code>. 
+ * 12 Blocks wide and 20 Blocks high.
+ * It also handles what happenes when a Line is filled with Blocks.
+ * The Field class is the one that changes the Score based on the amount of removed Lines.
+ *
+ * @author Richard
+ * @version 1.0
+ * 
+ * @see Block
+ */
 public class Field {
     private static int WIDTH = 360;
     private static int HEIGHT = 600;
@@ -14,6 +25,13 @@ public class Field {
     private static int top_y;
     private static int bottom_y;
     public static Block[][] FieldArray = new Block[20][12];
+
+    /**
+     * Construktor for Field class.
+     * Sets the Color of every Block to gray.
+     * And gives every Block the x and y of each left upper corner.
+     * 
+     */
     public Field(){
         left_x = (Game.WIDTH/2) - (WIDTH/2);
         top_y = 50;
@@ -26,6 +44,7 @@ public class Field {
             }
         }
     }
+
     private void removeLine(int i){
         for(int j=i;j<(20-i);j++){
             for(int o = 0; o<12;o++){
@@ -39,6 +58,13 @@ public class Field {
             }
         }
     }
+
+    /**
+     * returns on of the 7 Colors, is called by <code>addRandomBlocks</code> in the Game class.
+     * 
+     * @return Color
+     * @see Game
+     */
     public static Color getRandomColor(){
         int rand = new Random().nextInt(6)+1;
         Color color;
@@ -62,7 +88,7 @@ public class Field {
                 color = Color.magenta;
                 break;
             default:
-                color =Color.cyan;
+                color = Color.cyan;
         }
         return color;
     }
@@ -82,6 +108,13 @@ public class Field {
             PlayManager.counter += (PlayManager.level+1)*1500;
         }
     }
+    /**
+     * update is called 60 times per second (once per Frame),
+     * it checks if Lines are filled with Blocks and 
+     * gives a count on how many Lines where removed at once.
+     * it calls <code>addPointByRows</code> with the count of removed Lines.
+     *
+     */
     public void update(){
         int removeLineCounter = 0;
         for(int j=0; j<4;j++){
@@ -103,6 +136,14 @@ public class Field {
             addPointByRows(removeLineCounter);
         }
     }
+    /**
+     * This function, same as update, is also called every Frame.
+     * it uses <code>Graphics2D</code> to draw every Block in the Field Array.
+     * 
+     * @param g2
+     * 
+     * @see Graphics2D
+     */
     public void draw(Graphics2D g2){
         //Field Blocks
         int i = 0;

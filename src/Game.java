@@ -15,6 +15,17 @@ import javax.swing.JPanel;
 import src.Blocks.Figure;
 import src.PieceBuilder.CustomPiecesCreationPanel;
 
+/**
+ * This class is the <code>JPanel</code>, that makes the Game visible.
+ * Game implements <code>Runnable</code> wich contains the Game Loop,
+ * that calls the update and draw of other functions every Frame.
+ *
+ * @author Richard
+ * @version 2.0
+ * 
+ * @see JPanel
+ * @see Runnable
+ */
 public class Game extends JPanel implements Runnable{
     
     public static final int WIDTH = 1280;
@@ -26,8 +37,15 @@ public class Game extends JPanel implements Runnable{
     CustomPiecesCreationPanel creationPanel;
     PlayManager pm;
     Field field;
-    KeyHandler KeyHandler;
+    KeyHandler KeyH;
 
+    /**
+     * overloaded Construktor for Game class.
+     * It does not take any parameters.
+     * Game sets the standard Variables for the JPanel.
+     * It creates an <code>ArrayList</code> of Figures and initializes the Field and PlayManager classes.
+     * For Gamemode 3 it also calls the <code>addRandomBlocks</code> function.
+     */
     public Game() {
 
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -66,6 +84,12 @@ public class Game extends JPanel implements Runnable{
         }
     }
 
+    /**
+     * Construktor for Field class, wich takes an <code>ArrayList</code> of Figures.
+     * Game set the standard Variables for JPanel and initializes the Field and PlayManager classes.
+     * 
+     * @see ArrayList
+     */
     public Game(ArrayList<Figure> figureList) {
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         this.setBackground(Color.black);
@@ -78,6 +102,12 @@ public class Game extends JPanel implements Runnable{
         field = new Field();
     }
 
+    /**
+     * launch creates a new <code>Thread</code> and starts it.
+     * It also starts the music loop.
+     * 
+     * @see Thread
+     */
     public void launch(){
         GameThread = new Thread(this);
         if(Main.gameMode!=0){
@@ -85,6 +115,10 @@ public class Game extends JPanel implements Runnable{
         }
         GameThread.start();
     }
+    /**
+     * This is our Game Loop it calls update and repaint every Frame(60 Frames per Second).
+     * 
+     */
     public void run(){
         // Game Loop
         double drawInterval = (double) 1000000000 /FPS;
@@ -105,12 +139,26 @@ public class Game extends JPanel implements Runnable{
             }
         }
     }
+    /**
+     * update is called 60 times per second (once per Frame),
+     * calls update for the <code>PlayManager</code> and the <code>Field</code> class.
+     *
+     * @see Field
+     * @see PlayManager
+     */
     private void update(){
         if(!KeyHandler.pausePressed || gameOver){
             pm.update();
             field.update();
         }
     }
+    /**
+     * this function is called by the repaint function in the GameLoop.
+     * it calls draw for the <code>PlayManager</code> and the <code>Field</code> class. 
+     * paintComponent also creates teh <code>JButtons</code> for the Pause and GameOver menu.
+     * 
+     * @see JButton
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 

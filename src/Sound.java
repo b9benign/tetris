@@ -53,16 +53,16 @@ public class Sound {
         volumeControl.setValue(-40f);
     }
 
-/**
- * The <code>play</code> method plays a sound or music clip at a specified index with volume control and handles
- * stopping previous music clips if necessary.
- * 
- * @param index is used to specify the index of the sound to be played.
- * It is used to identify the specific sound that should be loaded and played by the method.
- * @param isMusic is a boolean variable that indicates
- * whether the sound being played is music or not. If <code>isMusic</code> is <code>true</code>, it means that the sound
- * being played is music and not a sound effect.
- */
+    /**
+     * The <code>play</code> method plays a sound or music clip at a specified index with volume control and handles
+     * stopping previous music clips if necessary.
+     * 
+     * @param index is used to specify the index of the sound to be played.
+     * It is used to identify the specific sound that should be loaded and played by the method.
+     * @param isMusic is a boolean variable that indicates
+     * whether the sound being played is music or not. If <code>isMusic</code> is <code>true</code>, it means that the sound
+     * being played is music and not a sound effect.
+     */
     public void play(int index, boolean isMusic) {
         if(!KeyHandler.mutePressed){
             if (!isValidIndex(index)) {

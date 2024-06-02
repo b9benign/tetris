@@ -7,13 +7,29 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.JPanel;
 
+/**
+ * This class extends the <code>JPanel</code>, sets all standard Variables for the JPanel.
+ * the Menu creates the Main Title Screen, it has 3 Buttons, on for each Gamemode.
+ * Based on the Button pressed, the Game start with the Gamemode you chose.
+ *
+ * @author Richard
+ * @version 1.0
+ * 
+ * @see JPanel
+ */
 public class Menu extends JPanel{
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
 
+    /**
+     * Construktor for menuclass.
+     * It sets the standard Variables for the <code>JPanel</code>
+     * and calls createButtons.
+     * 
+     * @see JPanel
+     */
     public Menu(){
 
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -23,6 +39,11 @@ public class Menu extends JPanel{
 
         createButtons();
     }
+    /**
+     * update is called 60 times per second (once per Frame),
+     * it calls the repaint function.
+     *
+     */
     public void update(){
         repaint();
     }
@@ -81,6 +102,12 @@ public class Menu extends JPanel{
         add(gameMode3);
         invalidate();
     }
+    /**
+     * creates the g2 Variable, that is used by other draw funtions.
+     * it calls the draw function with g2
+     * 
+     * @param g
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 

@@ -1,17 +1,34 @@
 package src;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class KeyHandler extends JFrame implements KeyListener {
+/**
+ * This class implements <code>KeyListener</code> and changes public booleans based on the Keys pressed on the Keyboard.
+ *
+ * @author Richard
+ * @version 1.0
+ * 
+ * @see KeyListener
+ */
+public class KeyHandler implements KeyListener {
 
     public static boolean upPressed, downPressed, rightPressed, leftPressed, keyQPressed, keyEPressed, pausePressed, mutePressed;
+    /**
+     * We dont use this function, but it is needed as KeyHandler implements <code>KeyListener</code>.
+     * 
+     * @see KeyListener
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
+    /**
+     * If a Button is pressed, the corresponding boolean is set to true.
+     * special Events are teh Escape and M button, as they change to false on a second press on their Keys
+     * 
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -53,6 +70,11 @@ public class KeyHandler extends JFrame implements KeyListener {
         }
     }
 
+    /**
+     * We dont use this function, but it is needed as KeyHandler implements <code>KeyListener</code>.
+     * 
+     * @see KeyListener
+     */
     @Override
     public void keyReleased(KeyEvent e) {
     }

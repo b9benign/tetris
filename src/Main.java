@@ -6,6 +6,19 @@ import src.PieceBuilder.CustomPiecesCreationPanel;
 import javax.swing.JFrame;
 import java.util.ArrayList;
 
+/**
+ * The Main class creates the <code>JFrame</code> wich displayes all <code>JPanels</code>.
+ * It inizializes the <code>Menu</code>, <code>Game</code>, <code>CustomPiecesCreationPanel</code> and the <code>ArrayList</code> with all <code>Figures</code>.
+ *
+ * @author Richard
+ * @version 2.0
+ * 
+ * @see Menu
+ * @see Game
+ * @see CustomPiecesCreationPanel
+ * @see ArrayList
+ * @see Figure
+ */
 public class Main {
     public static int gameMode = 0;
     private static JFrame window = new JFrame("Tetris");
@@ -13,6 +26,12 @@ public class Main {
     static Game game = new Game();
     static CustomPiecesCreationPanel panel = new CustomPiecesCreationPanel();
     public static ArrayList<Figure> figureList = new ArrayList<>();
+
+    /**
+     * the main function sets the standard Variabels for the <code>JFrame</code>.
+     * It also calls the setWindow function.
+     * @see JFrame
+     */
     public static void main (String[] args) {
 
         setWindow();
@@ -23,6 +42,10 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
+    /**
+     * This function sets the Variable everything up base on the gameMode variable.
+     * It initializes the gmaeMode / the menu.
+     */
     public static void setWindow(){
         
         if(gameMode==0){

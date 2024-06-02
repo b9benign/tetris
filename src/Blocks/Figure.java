@@ -14,24 +14,43 @@ import src.Sound;
 import src.Field;
 import src.Game;
 
+/**
+ * This class is our Tetris piece, it is made out of an Array of <code>Block<code>.
+ * Every Array is squared, so the Rotation can be easily done.
+ * This class checks all possible Collisions for the Figure, and handles the Movements,
+ * Rotation and handles the Blockplace Events
+ *
+ * @author Richard
+ * @version 2.0
+ * 
+ * @see Block
+ */
 public class Figure {
-    //public Color c; and Array
+    
     private Block b[] = new Block[0];
     private int arrayLength;
+
     public int arrayWidth;
     public Color c;
     public int[] visible;
     public boolean active;
-    
-    boolean rightCollision, leftCollision, bottomCollision, rotationCollision;
     public static int autoDropCounter = 0;
+
+    boolean rightCollision, leftCollision, bottomCollision, rotationCollision;
     int rotateCounter = 0;
     int waitNewBlockCounter = 0;
 
+    /**
+     * Construktor for Figure class.
+     * calls <code>create</code> and <code>setVisible</code> 
+     * and sets Color for Figure.
+     * 
+     * @see create
+     * @see setVisible
+     */
     public Figure(Color c, int arrayWidth, int[] visible){
         this.b = create(c, arrayWidth, visible);
         this.c = c;
-        this.visible = visible;
 
         setVisible(visible);
     }
@@ -40,6 +59,7 @@ public class Figure {
         this.arrayWidth = arrayWidth;
         this.arrayLength = arrayWidth * arrayWidth;
 
+        //creates an array of Block with arrayLength many entries
         Block b[] = new Block[this.arrayLength];
         for(int i=0; i< this.arrayLength;i++){
             b[i]= new Block(c);
@@ -47,6 +67,7 @@ public class Figure {
         return b;
     };
     private void setVisible(int[] blockIndices){
+        //creates a set of indexes, wich index of Block should be visible
         Set<Integer> set = new HashSet<>();
         for (int num : blockIndices) {
             set.add(num);
@@ -55,6 +76,14 @@ public class Figure {
             b[i].visible = set.contains(i); //Nur übergebene Indizes sind nun sichtbar
         }
     }
+    
+    /**
+     * This function gets the SpawnX and SpawnY from the PlayManager, 
+     * and sets x and y for all blocks in Figure
+     * 
+     * @param x
+     * @param y
+     */
     public void setXY(int x, int y){
         int o = 0;
         for(int i=0; i<b.length ;i++){
@@ -144,6 +173,7 @@ public class Figure {
                 leftCollision=true;
             }
         }
+        //check Left Collision with other Blocks
         for(int i = 0; i < Field.FieldArray.length;i++){
             for(int o = 0; o < Field.FieldArray[i].length;o++){
                 for(int j = 0; j < b.length; j++){
@@ -159,6 +189,7 @@ public class Figure {
                 rightCollision=true;
             }
         }
+        //check right Collision with other Blocks
         for(int i = 0; i < Field.FieldArray.length;i++){
             for(int o = 0; o < Field.FieldArray[i].length;o++){
                 for(int j = 0; j < b.length; j++){
@@ -174,6 +205,7 @@ public class Figure {
                 bottomCollision=true;
             }
         }
+        //check Bottom Collision with other Blocks
         for(int i = 0; i < Field.FieldArray.length;i++){
             for(int o = 0; o < Field.FieldArray[i].length;o++){
                 for(int j = 0; j < b.length; j++){
@@ -204,6 +236,13 @@ public class Figure {
             }
         }
     }
+    /**
+     * update is called 60 times per second (once per Frame),
+     * it checks for Movement and Rotation Collision.
+     * Update also Calls the Movement and rotation function, handles the autoDrop
+     * It also handles the Block set, when Figure hits the lowest Point.
+     *
+     */
     public void update(){
         //rotation
         rotateCounter++;
@@ -270,6 +309,14 @@ public class Figure {
             }
         }
     }
+    /**
+     * This function, same as update, is also called every Frame.
+     * it uses <code>Graphics2D</code> to draw every Block in the Figure Array.
+     * 
+     * @param g2
+     * 
+     * @see Graphics2D
+     */
     public void draw(Graphics2D g2){
         int o = 0;
         for(int i = 0; i < this.arrayLength;i++){
@@ -287,6 +334,7 @@ public class Figure {
         }
     }
     private void setFieldBlocks(){
+        //takes all Blocks from figure and sets color and visible on the Fieldblocks.
         for(int i = 0; i < Field.FieldArray.length;i++){
             for(int o = 0; o < Field.FieldArray[i].length;o++){
                 for(int j = 0; j < b.length; j++){
@@ -298,6 +346,12 @@ public class Figure {
             }
         }
     }
+    
+    /** 
+     * Getter for Figure Color
+     * 
+     * @return Color
+     */
     public Color getColor(){
         return c;
     }
