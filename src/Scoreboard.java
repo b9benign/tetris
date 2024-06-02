@@ -8,11 +8,26 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * The class Scoreboard contains methods to safe the score in a file after game over and to print the top 5 scores in the console.
+ * 
+ * @author Liam
+ * @version 1.0
+ * @see Path
+ * @see FileReader
+ */
 public class Scoreboard {
     private static final String SCORE_FILE = "src/resources/scores.txt";
     private static boolean scoreWritten = false;
     private static boolean highscoresLogged = false;
 
+    /**
+     * The <code>writeScore</code> function reads scores from a file, adds a new score, sorts the scores in
+     * descending order, keeps only the top 5 scores, and writes the updated scores back to the file.
+     * 
+     * @param score The <code>score</code> variable contains the final score after game over.
+     * @see Path
+     */
     public static void writeScore(int score) {
         if (scoreWritten) {
             return; // make sure that method is only executed once
@@ -39,6 +54,12 @@ public class Scoreboard {
         }
     }
 
+    /**
+     * The function <code>logHighscores</code> reads highscores from the file `scores.txt`
+     * and prints the top 5 scores to the console.
+     * 
+     * @see FileReader
+     */
     public static void logHighscores() {
         if (highscoresLogged) {
             return; // make sure that method is only executed once
