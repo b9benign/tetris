@@ -51,6 +51,7 @@ public class Figure {
     public Figure(Color c, int arrayWidth, int[] visible){
         this.b = create(c, arrayWidth, visible);
         this.c = c;
+        this.visible = visible;
 
         setVisible(visible);
     }
