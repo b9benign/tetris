@@ -103,7 +103,7 @@ public class Menu extends JPanel{
         invalidate();
     }
     /**
-     * creates the g2 Variable, that is used by other draw funtions.
+     * creates the g2 Variable, that is used by other draw functions.
      * it calls the draw function with g2
      * 
      * @param g

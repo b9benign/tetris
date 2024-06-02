@@ -44,7 +44,7 @@ public class Main {
     }
     /**
      * This function sets the Variable everything up base on the gameMode variable.
-     * It initializes the gmaeMode / the menu.
+     * It initializes the gameMode / the menu.
      */
     public static void setWindow(){
         

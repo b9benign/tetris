@@ -18,7 +18,7 @@ import javax.swing.border.LineBorder;
     public static int modeButtonHeight = 100;
     
     /**
-     * Contruktor for ModeButtons class.
+     * Contructor for ModeButtons class.
      * It sets all standard Variables and takes an int based on the Gamemode variable(1,2 or 3).
      * 
      * @param mode
