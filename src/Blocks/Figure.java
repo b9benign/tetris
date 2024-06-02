@@ -44,9 +44,7 @@ public class Figure {
      * Construktor for Figure class.
      * calls <code>create</code> and <code>setVisible</code> 
      * and sets Color for Figure.
-     * 
-     * @see create
-     * @see setVisible
+     *
      */
     public Figure(Color c, int arrayWidth, int[] visible){
         this.b = create(c, arrayWidth, visible);
